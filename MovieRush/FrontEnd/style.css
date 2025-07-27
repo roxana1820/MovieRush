@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.intro-text {
+    position: absolute;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: #c1b7b7;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInText 2s ease-in-out forwards;
+    animation-delay: 0.8s;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    max-width: 100%;
+  }
+  
+  @keyframes fadeInText {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 20px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+  
+
+.background-video {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+    filter: brightness(0.5);
+  }
+
+.background-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.site-title {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 54px;
+  font-weight: 700;
+  color: #cfc6c6;
+  text-shadow: 2px 4px 10px rgba(0,0,0,0.7);
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  z-index: 2;
+}
+
+.container {
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form h3 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  color: #cebdbd;
+}
+
+input {
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  background: rgba(236, 236, 236, 0.1);
+  color: #c5bbbb;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: #c0b3b3;
+}
+
+input:focus {
+  outline: none;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid #fff;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #bfc2ca, #c1bdc7);
+  color: rgb(5, 5, 5);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(209, 210, 214, 0.4);
+}
+
+#message,
+#loginMessage,
+#registerMessage {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #2b2929;
+}
+
+.guest-btn {
+  margin-top: 30px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(232, 229, 229, 0.878);
+  color: #181616;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: center;
+}
+
+.success {
+  color: #d4edda;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .form-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form {
+    width: 100%;
+  }
+}
+
+.ticker {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #bfbfbf;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  z-index: 2;
+}
+
+.ticker p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 20s linear infinite;
+  color: #e0dddd;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  z-index: 10;
+}
+.header-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.header-buttons button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.header-buttons button:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+}
+
+.main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.hidden {
+  display: none;
+}
