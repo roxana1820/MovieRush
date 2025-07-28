@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@400;700&family=Playfair+Display&display=swap');
 
 * {
   margin: 0;
@@ -14,47 +14,49 @@ body {
   align-items: center;
   overflow: hidden;
 }
+
 .intro-text {
-    position: absolute;
-    top: 130px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    color: #c1b7b7;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: #c1b7b7;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInText 2s ease-in-out forwards;
+  animation-delay: 0.8s;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  max-width: 100%;
+}
+
+@keyframes fadeInText {
+  from {
     opacity: 0;
-    animation: fadeInText 2s ease-in-out forwards;
-    animation-delay: 0.8s;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-    max-width: 100%;
+    transform: translate(-50%, 20px);
   }
-  
-  @keyframes fadeInText {
-    from {
-      opacity: 0;
-      transform: translate(-50%, 20px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
-  
+}
 
 .background-video {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -3;
-    filter: brightness(0.5);
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -3;
+  filter: brightness(0.5);
+}
 
 .background-overlay {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: -2;
@@ -69,17 +71,16 @@ body {
   font-weight: 700;
   color: #cfc6c6;
   text-shadow: 2px 4px 10px rgba(0,0,0,0.7);
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   z-index: 2;
 }
 
 .container {
   width: 100%;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
-
 
 .form {
   display: flex;
@@ -122,8 +123,10 @@ button {
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #bfc2ca, #c1bdc7);
-  color: rgb(5, 5, 5);
+  background: #000;
+  color: rgb(255, 255, 255);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -141,56 +144,104 @@ button:hover {
   color: #2b2929;
 }
 
-.guest-btn {
-  margin-top: 30px;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(232, 229, 229, 0.878);
-  color: #181616;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  align-self: center;
-}
-
 .success {
   color: #d4edda;
 }
 
-@keyframes fadeInDown {
+.sidebar {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 250px;
+  background: transparent;
+  backdrop-filter: blur(5px);
+  border: 1px solid #d7c9ba;
+  border-radius: 15px;
+  padding: 20px;
+  color: #e0dddd;
+  box-shadow: 0 0 20px rgba(207, 169, 131, 0.3);
+  z-index: 2;
+  animation: slideIn 1s ease-out;
+}
+
+.sidebar-right {
+  position: absolute;
+  top: 200px;
+  right: 50px;
+  width: 250px;
+  background: transparent;
+  backdrop-filter: blur(5px);
+  border: 1px solid #d7c9ba;
+  border-radius: 15px;
+  padding: 20px;
+  color: #e0dddd;
+  box-shadow: 0 0 20px rgba(207, 169, 131, 0.3);
+  z-index: 2;
+  animation: slideInRight 1s ease-out;
+}
+
+@keyframes slideInRight {
   from {
-    transform: translateY(-50px);
     opacity: 0;
+    transform: translateX(50px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.sidebar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #cfc0b1;
+  margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
+.sidebar-section {
+  margin-bottom: 20px;
+}
 
-@media (max-width: 768px) {
-  .form-container {
-    flex-direction: column;
-    align-items: center;
-  }
+.sidebar-section h3, .sidebar-section h4, .sidebar-section h5 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #c9b49f;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d4a373;
+  padding-bottom: 5px;
+}
 
-  .form {
-    width: 100%;
-  }
+.sidebar-section ul {
+  list-style: none;
+}
+
+.sidebar-section ul li {
+  margin: 12px 0;
+}
+
+.sidebar-section ul li a {
+  color: #e0dddd;
+  text-decoration:none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.sidebar-section ul li a:hover {
+  color: #d4a373;
+  text-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+}
+
+.article-description {
+  font-size: 14px;
+  color: #e0dddd;
+  margin-top: 5px;
+  display: none; 
+}
+
+.article-description.show {
+  display: block; 
 }
 
 .ticker {
@@ -202,21 +253,26 @@ button:hover {
   color: #bfbfbf;
   font-size: 14px;
   font-family: 'Inter', sans-serif;
-  z-index: 2;
+  z-index: 3;
 }
 
 .ticker p {
   display: inline-block;
-  padding-left: 100%;
-  animation: scrollText 20s linear infinite;
+  animation: scrollText 15s linear infinite;
   color: #e0dddd;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 @keyframes scrollText {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .navbar {
@@ -240,16 +296,8 @@ button:hover {
   gap: 20px;
 }
 
-.nav-logo {
-  font-size: 26px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #dcdcdc;
-  font-family: 'Poppins', sans-serif;
-}
-
 .nav-link {
-  text-decoration:solid;
+  text-decoration: none;
   color: #fff;
   font-size: 20px;
   font-weight: 500;
@@ -263,8 +311,8 @@ button:hover {
 .login-btn,
 .register-btn {
   background-color: transparent;
-  color: #000;
-  border: 1px solid #aaa;
+  color: #ffffff;
+  border: 1px solid #797474;
 }
 
 .nav-btn:hover {

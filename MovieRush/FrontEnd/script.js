@@ -4,10 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const showLoginBtn = document.getElementById("showLogin");
     const showRegisterBtn = document.getElementById("showRegister");
     const guestLoginBtn = document.getElementById("moviesBtn");
-
     const loginMessageDiv = document.getElementById("loginMessage");
     const registerMessageDiv = document.getElementById("registerMessage");
-
+    const tickerText = document.querySelector(".ticker p");
 
     showLoginBtn.addEventListener("click", () => {
         loginForm.classList.remove("hidden");
@@ -20,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     guestLoginBtn.addEventListener("click", () => {
-        window.location.href = "movies.html"; 
+        window.location.href = "movies.html";
     });
 
     function showMessage(message, type, formType) {
@@ -29,6 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.style.color = type === "success" ? "lightgreen" : "red";
         messageDiv.style.fontWeight = "bold";
         messageDiv.style.marginTop = "10px";
+
+        if (tickerText) {
+            tickerText.textContent = message;
+            tickerText.style.color = type === "success" ? "lightgreen" : "red";
+        }
     }
 
     // 🟢 Регистрация
@@ -40,12 +44,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const confirmPassword = document.getElementById("confirmPassword").value;
 
         if (!email || !password || !confirmPassword) {
-            showMessage("Please, fill all of the fields!", "error", "register");
+            showMessage("Please fill all fields!", "error", "register");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showMessage("Please enter a valid email address!", "error", "register");
             return;
         }
 
         if (password !== confirmPassword) {
-            showMessage("The passwords don't match!", "error", "register");
+            showMessage("Passwords do not match!", "error", "register");
             return;
         }
 
@@ -71,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 registerForm.reset();
             }
         } catch (error) {
-            showMessage("Server error", "error", "register");
+            showMessage("Server error, please try again later", "error", "register");
         }
     });
 
@@ -81,6 +91,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const email = document.getElementById("loginEmail").value;
         const password = document.getElementById("loginPassword").value;
+
+        if (!email || !password) {
+            showMessage("Please fill in both email and password!", "error", "login");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showMessage("Please enter a valid email address!", "error", "login");
+            return;
+        }
 
         try {
             const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -94,7 +115,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
 
             if (!response.ok) {
-                showMessage(data.message || "Login failed", "error", "login");
+                if (response.status === 401) {
+                    showMessage("Invalid email or password", "error", "login");
+                } else if (response.status === 404) {
+                    showMessage("User not found, please register first", "error", "login");
+                } else {
+                    showMessage(data.message || "Login failed", "error", "login");
+                }
             } else {
                 showMessage("Login successful!", "success", "login");
                 setTimeout(() => {
@@ -102,7 +129,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 }, 1000);
             }
         } catch (error) {
-            showMessage("Server error", "error", "login");
+            showMessage("Server error, please try again later", "error", "login");
         }
+    });
+
+    const articleLinks = document.querySelectorAll(".sidebar-right .article-link");
+    articleLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const description = link.nextElementSibling;
+            const isVisible = description.classList.contains("show");
+            document.querySelectorAll(".article-description").forEach(desc => {
+                desc.classList.remove("show");
+            });
+            if (!isVisible) {
+                description.classList.add("show");
+            }
+        });
     });
 });
