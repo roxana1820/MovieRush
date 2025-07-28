@@ -159,7 +159,6 @@ button:hover {
   color: #d4edda;
 }
 
-/* Animations */
 @keyframes fadeInDown {
   from {
     transform: translateY(-50px);
@@ -220,47 +219,58 @@ button:hover {
   100% { transform: translateX(-100%); }
 }
 
-.header {
+.navbar {
   position: absolute;
   top: 0;
+  left: 0;
+  margin-top: -15px;
   width: 100%;
-  padding: 20px;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
-  align-items: right;
-  z-index: 10;
-}
-.header-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-left: auto;
-}
-
-.header-buttons button {
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 6px;
-  color: #000;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s ease;
-}
-
-.header-buttons button:hover {
-  background-color: #fff;
-  transform: scale(1.05);
-}
-
-.main {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  margin-top: 100px;
-  justify-content: center;
   align-items: center;
+  z-index: 10;
+  background: transparent;
 }
 
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-logo {
+  font-size: 26px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #dcdcdc;
+  font-family: 'Poppins', sans-serif;
+}
+
+.nav-link {
+  text-decoration:solid;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ccc;
+}
+
+.login-btn,
+.register-btn {
+  background-color: transparent;
+  color: #000;
+  border: 1px solid #aaa;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
 
 .hidden {
   display: none;

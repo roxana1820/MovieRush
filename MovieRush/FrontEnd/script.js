@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("registerForm");
     const showLoginBtn = document.getElementById("showLogin");
     const showRegisterBtn = document.getElementById("showRegister");
-    const guestLoginBtn = document.getElementById("guestLoginBtn");
+    const guestLoginBtn = document.getElementById("moviesBtn");
 
     const loginMessageDiv = document.getElementById("loginMessage");
     const registerMessageDiv = document.getElementById("registerMessage");
 
-    // Показване на формите
+
     showLoginBtn.addEventListener("click", () => {
         loginForm.classList.remove("hidden");
         registerForm.classList.add("hidden");
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     guestLoginBtn.addEventListener("click", () => {
-        window.location.href = "movies.html"; // смени го със съответната страница при теб
+        window.location.href = "movies.html"; 
     });
 
     function showMessage(message, type, formType) {
