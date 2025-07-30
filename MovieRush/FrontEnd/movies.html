@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie catalog - MovieRush</title>
+    <title>MovieRush - Movie Catalog</title>
     <link rel="stylesheet" href="movies.css">
     <script src="movies.js" defer></script>
 </head>
 <body>
-    <img src="background.jpg" alt="Background" class="background-image">
-    <div class="site-title">MovieRush - Movie Catalog</div>
-    <div class="container">
-        <div class="buttons-container">
-            <button id="sortMoviesButton">Sort movies</button>
-            <a href="favorites.html">
-                <button id="showFavoritesButton">Show Favorite Movies</button>
-            </a>
-            <a href="watched.html">
-                <button id="showWatchedButton">Watched Movies</button>
-            </a>
-        </div>
-        <div id="successMessage" class="success-message"></div>
-        <div id="movieList" class="movie-list">
-        
+    <div class="header">
+       <h1 class="site-title">🎬 MovieRush</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search movies...">
         </div>
     </div>
-
+    <div class="main-content">
+        <div class="featured-movie">
+            <img src="" alt="Featured Movie" id="featuredImage" class="featured-image">
+            <div class="movie-info">
+                <h2 id="featuredTitle"></h2>
+                <p id="featuredDescription"></p>
+                <button id="playBtn">Watch Trailer</button>
+            </div>
+            <div class="nav-buttons">
+            <button id="prevBtn">&lt;</button>
+            <button id="nextBtn">&gt;</button>
+        </div>
+        </div>
+        <div class="up-next">
+            <h3>Up Next</h3>
+            <div class="up-next-list" id="upNextList"></div>
+        </div>
+    </div>
 </body>
 </html>
-

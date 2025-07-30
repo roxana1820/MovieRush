@@ -1,131 +1,46 @@
 document.addEventListener("DOMContentLoaded", function () {
     const movies = [
-        { "id": 1, "title": "Inception", "poster": "inception.jpg" },
-        { "id": 2, "title": "The Dark Knight", "poster": "darknight.jpg" },
-        { "id": 3, "title": "Avatar", "poster": "avatar.jpeg" },
-        { "id": 4, "title": "Interstellar", "poster": "interstellar.jpg" },
-        { "id": 5, "title": "Titanic", "poster": "titanic.jpg" },
-        { "id": 6, "title": "The Matrix", "poster": "matrix.jpg" },
-        { "id": 7, "title": "Gladiator", "poster": "gladiator.jpg" },
-        { "id": 8, "title": "The Godfather", "poster": "godfather.jpg" },
-        { "id": 9, "title": "Pulp Fiction", "poster": "pulpfiction.jpg" },
-        { "id": 10, "title": "The Shawshank Redemption", "poster": "shawshank.jpg" },
-        { "id": 11, "title": "Fight Club", "poster": "fightclub.webp" },
-        { "id": 12, "title": "Forrest Gump", "poster": "forrestgump.jpg" }
+        { id: 1, title: "Inception", poster: "inception.jpg", description: "A mind-bending heist movie." },
+        { id: 2, title: "Avatar", poster: "avatarMovie.jpg", description: "A dark tale of a hero." },
+        { id: 3, title: "Titanic", poster: "titanicMovie.jpg", description: "An epic sci-fi adventure." },
+        { id: 4, title: "Karate Kid", poster: "karateKid.jpg", description: "A journey through space." },
+        { id: 5, title: "Interstellar", poster: "interstellarMovie.jpg", description: "A journey through space."}
     ];
 
-    let sortOrder = 'asc';
-    let favoriteMovies = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+    let currentIndex = 0;
 
- 
-    function displayMovies(movieList) {
-        const movieListContainer = document.getElementById('movieList');
-        movieListContainer.innerHTML = '';
+    function updateFeaturedMovie() {
+        const movie = movies[currentIndex];
+        document.getElementById('featuredImage').src = movie.poster;
+        document.getElementById('featuredTitle').textContent = movie.title;
+        document.getElementById('featuredDescription').textContent = movie.description;
+    }
 
-        movieList.forEach(movie => {
-            const movieItem = document.createElement('div');
-            movieItem.classList.add('movie-item');
-
-            movieItem.innerHTML = `
-            <img src="${movie.poster}" alt="${movie.title}">
-            <h4>${movie.title}</h4>
-            <a href="movie_details.html?title=${encodeURIComponent(movie.title)}">
-                <button>More Info</button>
-            </a>
-            <button onclick="markAsWatched(${movie.id})">Mark as Watched</button>
-            <button onclick="addToFavorites(${movie.id})">Add to Favorites</button>
-        `;
-        
-
-            movieListContainer.appendChild(movieItem);
+    function updateUpNext() {
+        const upNextList = document.getElementById('upNextList');
+        upNextList.innerHTML = '';
+        const nextMovies = movies.slice(currentIndex + 1, currentIndex + 4).concat(movies.slice(0, Math.max(0, 3 - (movies.length - currentIndex - 1))));
+        nextMovies.forEach(movie => {
+            const item = document.createElement('div');
+            item.classList.add('up-next-item');
+            item.innerHTML = `<img src="${movie.poster}" alt="${movie.title}"><span>${movie.title}</span>`;
+            upNextList.appendChild(item);
         });
     }
 
-    displayMovies(movies);
-
-
-    if (window.location.pathname.indexOf("movies.html") !== -1) {
-        document.getElementById('sortMoviesButton').addEventListener('click', function () {
-            sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-            this.textContent = sortOrder === 'asc' ? 'Sort in Ascending Order' : 'Sort in Descending Order';
-
-            const sortedMovies = [...movies].sort((a, b) => 
-                sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
-            );
-
-            displayMovies(sortedMovies);
-        });
-    }
-
-    window.addToFavorites = function (id) {
-        const movie = movies.find(m => m.id === id);
-        if (!favoriteMovies.some(m => m.id === movie.id)) {
-            favoriteMovies.push(movie);
-            localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
-            showSuccessMessage(`"${movie.title}" has been added to favorites!`);
-        } else {
-            showSuccessMessage(`"${movie.title}" is already in your favorites list.`);
-        }
-    };
-
-    window.markAsWatched = function (id) {
-        const movie = movies.find(m => m.id === id);
-        let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
-    
-        if (!watchedMovies.some(m => m.id === movie.id)) {
-            watchedMovies.push(movie);
-            localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
-            showSuccessMessage(`"${movie.title}" has been added to your watched movies!`);
-        } else {
-            showSuccessMessage(`"${movie.title}" is already in your watched movies list.`);
-        }
-    };
-    
-
-    function showSuccessMessage(message) {
-        const successMessageElement = document.getElementById('successMessage');
-        successMessageElement.textContent = message;
-        successMessageElement.style.display = 'block';
-
-        setTimeout(() => {
-            successMessageElement.style.display = 'none';
-        }, 3000);
-    }
-
-
-    displayMovies(movies);
-
-
-    document.getElementById('showFavoritesButton').addEventListener('click', function () {
-        displayFavoriteMovies();
+    document.getElementById('prevBtn').addEventListener('click', function () {
+        currentIndex = (currentIndex - 1 + movies.length) % movies.length;
+        updateFeaturedMovie();
+        updateUpNext();
     });
 
+    document.getElementById('nextBtn').addEventListener('click', function () {
+        currentIndex = (currentIndex + 1) % movies.length;
+        updateFeaturedMovie();
+        updateUpNext();
+    });
 
-    function displayFavoriteMovies() {
-        const favoriteMoviesContainer = document.getElementById('movieList');
-        favoriteMoviesContainer.innerHTML = '';
-
-        if (favoriteMovies.length > 0) {
-            favoriteMovies.forEach(movie => {
-                const movieItem = document.createElement('div');
-                movieItem.classList.add('movie-item');
-
-                movieItem.innerHTML = `
-                <img src="${movie.poster}" alt="${movie.title}">
-                <h4>${movie.title}</h4>
-                <a href="movie_details.html?title=${encodeURIComponent(movie.title)}">
-                    <button>More Info</button>
-                </a>
-                <button onclick="addToFavorites(${movie.id})">Add to Favorites</button>
-                <button onclick="markAsWatched(${movie.id})">Mark as Watched</button>
-            `;
-
-                favoriteMoviesContainer.appendChild(movieItem);
-            });
-        } else {
-            favoriteMoviesContainer.innerHTML = "<p>You don't have any favorite movies.</p>";
-        }
-    }
-
-  
+    // Initial load
+    updateFeaturedMovie();
+    updateUpNext();
 });
