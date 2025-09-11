@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 🟢 Регистрация
     registerForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -85,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 🔐 Вход
+
     loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
