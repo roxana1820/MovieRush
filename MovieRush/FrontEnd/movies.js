@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     renderSection("topRatedList", allMovies.topRated);
     renderSection("upcomingList", allMovies.upcoming);
-    renderSection("mostWatchedList", allMovies.nowPlaying); 
+    renderSection("mostWatchedList", allMovies.nowPlaying); // Данните остават същите, но секцията е "Most Watched"
 
     // --- Scroll бутони за секции ---
     document.querySelectorAll(".movie-list-container").forEach(container => {
@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const searchButton = document.createElement("button");
     searchButton.id = "searchBtn";
-    searchButton.innerHTML = "🔎"; 
     searchButton.style.marginLeft = "5px";
     searchButton.style.cursor = "pointer";
     searchButton.style.background = "transparent";
