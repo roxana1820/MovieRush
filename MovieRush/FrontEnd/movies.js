@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const response = await fetch("http://localhost:5001/api/movies/all");
     const allMovies = await response.json();
 
-    console.log("Initial movies:", allMovies);
-
     let currentIndex = 0;
     let topRatedPage = 1;
     let isLoading = false;
@@ -13,6 +11,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const featuredDescription = document.getElementById('featuredDescription');
     const upNextList = document.getElementById('upNextList');
     const topRatedList = document.getElementById('topRatedList');
+    const searchInput = document.getElementById("searchInput");
+
 
     function updateFeaturedMovie() {
         const movie = allMovies.popular[currentIndex];
@@ -60,46 +60,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     renderSection("upcomingList", allMovies.upcoming);
     renderSection("nowPlayingList", allMovies.nowPlaying);
 
-    async function loadMoreTopRatedMovies() {
-        if (isLoading) return;
-        isLoading = true;
-        topRatedList.classList.add('loading');
-        console.log(`Loading more movies for page ${topRatedPage + 1}`);
-
-        try {
-            const response = await fetch(`http://localhost:5001/api/movies/top-rated?page=${topRatedPage + 1}`);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const newMovies = await response.json();
-            console.log('New movies:', newMovies);
-            if (newMovies.length > 0) {
-                topRatedPage++;
-                renderSection("topRatedList", newMovies);
-            } else {
-                console.log('No more movies to load');
-            }
-        } catch (error) {
-            console.error("Error loading more movies:", error);
-        } finally {
-            isLoading = false;
-            topRatedList.classList.remove('loading');
-        }
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-        console.log('IntersectionObserver triggered', entries[0].isIntersecting);
-        if (entries[0].isIntersecting && !isLoading) {
-            loadMoreTopRatedMovies();
-        }
-    }, { threshold: 0.1 });
-
-    const sentinel = document.getElementById('sentinel');
-    if (sentinel) {
-        observer.observe(sentinel);
-    } else {
-        console.warn('Sentinel element not found');
-    }
-
-    // Автоматично добавяне на скрол бутони за всяка секция
+    // --- Scroll бутони за секции ---
     document.querySelectorAll(".movie-list-container").forEach(container => {
         const sectionId = container.dataset.section;
 
@@ -119,5 +80,64 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         container.appendChild(prevBtn);
         container.appendChild(nextBtn);
+    });
+
+    const searchButton = document.createElement("button");
+    searchButton.id = "searchBtn";
+    searchButton.innerHTML = "🔎"; 
+    searchButton.style.marginLeft = "5px";
+    searchButton.style.cursor = "pointer";
+    searchButton.style.background = "transparent";
+    searchButton.style.border = "none";
+    searchButton.style.fontSize = "18px";
+    searchInput.parentNode.appendChild(searchButton);
+
+    function handleSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        if (!query) return;
+
+
+        document.getElementById("searchResultsSection")?.remove();
+
+        const results = [
+            ...allMovies.popular,
+            ...allMovies.topRated,
+            ...allMovies.upcoming,
+            ...allMovies.nowPlaying
+        ].filter(movie => movie.title.toLowerCase().includes(query));
+
+        const resultsSection = document.createElement("div");
+        resultsSection.className = "movie-section";
+        resultsSection.id = "searchResultsSection";
+        resultsSection.innerHTML = `<h3>Search Results for "${query}"</h3><div class="movie-list-container"><div class="movie-list"></div></div>`;
+
+        const resultsList = resultsSection.querySelector(".movie-list");
+        if (results.length > 0) {
+            results.forEach(movie => {
+                const card = document.createElement("div");
+                card.classList.add("movie-card");
+                card.innerHTML = `
+                    <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+                    <p>${movie.title}</p>
+                `;
+                resultsList.appendChild(card);
+            });
+        } else {
+            resultsList.innerHTML = `<p style="color:white; font-size:1rem;">No results found.</p>`;
+        }
+
+        document.querySelectorAll(".movie-section").forEach(section => {
+            if (section.id !== "searchResultsSection") section.style.display = "none";
+        });
+
+        document.body.appendChild(resultsSection);
+
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+    }
+
+    searchButton.addEventListener("click", handleSearch);
+
+    searchInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") handleSearch();
     });
 });
