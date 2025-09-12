@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const topRatedList = document.getElementById('topRatedList');
     const searchInput = document.getElementById("searchInput");
 
-
     function updateFeaturedMovie() {
         const movie = allMovies.popular[currentIndex];
         featuredImage.src = `https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`;
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     renderSection("topRatedList", allMovies.topRated);
     renderSection("upcomingList", allMovies.upcoming);
-    renderSection("nowPlayingList", allMovies.nowPlaying);
+    renderSection("mostWatchedList", allMovies.nowPlaying); 
 
     // --- Scroll бутони за секции ---
     document.querySelectorAll(".movie-list-container").forEach(container => {
@@ -95,7 +94,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     function handleSearch() {
         const query = searchInput.value.trim().toLowerCase();
         if (!query) return;
-
 
         document.getElementById("searchResultsSection")?.remove();
 
