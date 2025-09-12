@@ -99,18 +99,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.warn('Sentinel element not found');
     }
 
-    // Навигация за бутоните наляво и надясно
-    document.querySelectorAll('.scroll-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const sectionId = button.dataset.section;
-            const movieList = document.getElementById(sectionId);
-            const scrollAmount = 300; // Колко пиксела да се местят филмите при клик
+    // Автоматично добавяне на скрол бутони за всяка секция
+    document.querySelectorAll(".movie-list-container").forEach(container => {
+        const sectionId = container.dataset.section;
 
-            if (button.classList.contains('prev-movie-btn')) {
-                movieList.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            } else if (button.classList.contains('next-movie-btn')) {
-                movieList.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "scroll-btn prev-movie-btn";
+        prevBtn.innerHTML = "&lt;";
+        prevBtn.addEventListener("click", () => {
+            document.getElementById(sectionId).scrollBy({ left: -300, behavior: "smooth" });
         });
+
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "scroll-btn next-movie-btn";
+        nextBtn.innerHTML = "&gt;";
+        nextBtn.addEventListener("click", () => {
+            document.getElementById(sectionId).scrollBy({ left: 300, behavior: "smooth" });
+        });
+
+        container.appendChild(prevBtn);
+        container.appendChild(nextBtn);
     });
 });

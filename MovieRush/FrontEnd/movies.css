@@ -27,10 +27,6 @@ body {
     z-index: 2;
 }
 
-.logo {
-    height: 50px;
-}
-
 .search-bar input {
     margin-left: 30px;
     padding: 5px;
@@ -65,15 +61,6 @@ body {
     padding: 10px;
 }
 
-.movie-info h2 {
-    margin: 0;
-    font-size: 2em;
-}
-
-.movie-info p {
-    margin: 5px 0;
-}
-
 .movie-info button {
     background: #e50914;
     border: none;
@@ -105,12 +92,7 @@ body {
     width: 20%;
     background-color: #444;
     padding: 10px;
-    margin-top: 0;
     color: #fff;
-}
-
-.up-next h3 {
-    margin-top: 0;
 }
 
 .up-next-list {
@@ -134,18 +116,6 @@ body {
     transform: scale(1.05);
 }
 
-.up-next-item img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-}
-
-.up-next-item span {
-    font-size: 0.8rem;
-    display: block;
-    margin-top: 3px;
-}
-
 .movie-section {
     margin: 30px 20px;
 }
@@ -165,9 +135,9 @@ body {
 .movie-list {
     display: flex;
     gap: 15px;
-    overflow-x: hidden; /* Скрива скролбара */
+    overflow-x: hidden;
     padding-bottom: 10px;
-    scroll-behavior: smooth; /* Плавно скролиране при навигация */
+    scroll-behavior: smooth;
     width: 100%;
 }
 

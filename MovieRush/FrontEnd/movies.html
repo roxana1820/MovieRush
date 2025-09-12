@@ -14,6 +14,7 @@
             <input type="text" id="searchInput" placeholder="Search movies...">
         </div>
     </div>
+
     <div class="main-content">
         <div class="featured-movie">
             <img src="" alt="Featured Movie" id="featuredImage" class="featured-image">
@@ -35,21 +36,24 @@
 
     <div class="movie-section" id="topRatedSection">
         <h3>Top Rated</h3>
-        <div class="movie-list-container">
-            <button class="scroll-btn prev-movie-btn" data-section="topRatedList">&lt;</button>
+        <div class="movie-list-container" data-section="topRatedList">
             <div class="movie-list" id="topRatedList"></div>
-            <button class="scroll-btn next-movie-btn" data-section="topRatedList">&gt;</button>
             <div id="sentinel" style="height: 10px;"></div>
         </div>
     </div>
+
     <div class="movie-section" id="upcomingSection">
         <h3>Upcoming</h3>
-        
-        <div class="movie-list" id="upcomingList"></div>
+        <div class="movie-list-container" data-section="upcomingList">
+            <div class="movie-list" id="upcomingList"></div>
+        </div>
     </div>
+
     <div class="movie-section" id="nowPlayingSection">
         <h3>Now Playing</h3>
-        <div class="movie-list" id="nowPlayingList"></div>
+        <div class="movie-list-container" data-section="nowPlayingList">
+            <div class="movie-list" id="nowPlayingList"></div>
+        </div>
     </div>
 </body>
 </html>
