@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="header">
-       <h1 class="site-title">🎬 MovieRush</h1>
+        <h1 class="site-title">🎬 MovieRush</h1>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search movies...">
         </div>
@@ -23,14 +23,33 @@
                 <button id="playBtn">Watch Trailer</button>
             </div>
             <div class="nav-buttons">
-            <button id="prevBtn">&lt;</button>
-            <button id="nextBtn">&gt;</button>
-        </div>
+                <button id="prevBtn">&lt;</button>
+                <button id="nextBtn">&gt;</button>
+            </div>
         </div>
         <div class="up-next">
             <h3>Up Next</h3>
             <div class="up-next-list" id="upNextList"></div>
         </div>
+    </div>
+
+    <div class="movie-section" id="topRatedSection">
+        <h3>Top Rated</h3>
+        <div class="movie-list-container">
+            <button class="scroll-btn prev-movie-btn" data-section="topRatedList">&lt;</button>
+            <div class="movie-list" id="topRatedList"></div>
+            <button class="scroll-btn next-movie-btn" data-section="topRatedList">&gt;</button>
+            <div id="sentinel" style="height: 10px;"></div>
+        </div>
+    </div>
+    <div class="movie-section" id="upcomingSection">
+        <h3>Upcoming</h3>
+        
+        <div class="movie-list" id="upcomingList"></div>
+    </div>
+    <div class="movie-section" id="nowPlayingSection">
+        <h3>Now Playing</h3>
+        <div class="movie-list" id="nowPlayingList"></div>
     </div>
 </body>
 </html>

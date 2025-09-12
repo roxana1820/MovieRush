@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -7,17 +6,16 @@ const cors = require('cors');
 dotenv.config();
 const app = express();
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Routes
+// Auth routes
 const authRoutes = require('./routes/auth');
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
 app.use('/api/auth', authRoutes);
+
+// Movies routes
+const moviesRoutes = require('./routes/moviesRoutes');
+app.use('/api/movies', moviesRoutes);
 
 // DB + Server
 mongoose.connect(process.env.MONGO_URI, {
