@@ -28,11 +28,11 @@ router.get('/all', async (req, res) => {
             axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_API_KEY}&language=en-US&page=1`),
         ]);
 
-        res.json({
-            popular: popular.data.results,
-            topRated: topRated.data.results,
-            upcoming: upcoming.data.results,
-            nowPlaying: nowPlaying.data.results,
+         res.json({
+            popular: popular.data.results.slice(0, 13),
+            topRated: topRated.data.results.slice(0, 13),
+            upcoming: upcoming.data.results.slice(0, 13),
+            nowPlaying: nowPlaying.data.results.slice(0, 13),
         });
     } catch (error) {
         console.error('Error fetching movies:', error.message);
