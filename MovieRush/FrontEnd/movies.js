@@ -2,6 +2,121 @@ document.addEventListener("DOMContentLoaded", async function () {
     const response = await fetch("http://localhost:5001/api/movies/all");
     const allMovies = await response.json();
 
+    const categoriesBtn = document.getElementById('categoriesBtn');
+    const categoriesDropdown = document.getElementById('categoriesDropdown');
+    let genres = [];
+    let isDropdownOpen = false;
+   
+
+    async function loadGenres(){
+        try{
+            const response = await fetch("http://localhost:5001/api/movies/genres");
+            genres = await response.json();
+            renderGenres();
+
+        }catch(error){
+            console.error('Error fetching genres:', error);
+        }
+    }
+
+     function renderGenres() {
+        categoriesDropdown.innerHTML = '';
+        genres.forEach(genre => {
+            const item = document.createElement('div');
+            item.className = 'category-item';
+            item.textContent = genre.name;
+            item.addEventListener('click', () => selectGenre(genre.id, genre.name));
+            categoriesDropdown.appendChild(item);
+        });
+    }
+
+    async function selectGenre(genreId, genreName) {
+        try {
+
+            categoriesDropdown.classList.remove('show');
+            isDropdownOpen = false;
+            
+            const response = await fetch(`http://localhost:5001/api/movies/by-genre/${genreId}`);
+            const movies = await response.json();
+            
+            document.querySelector('.main-content').style.display = 'none';
+            
+            document.querySelectorAll('.movie-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            showGenreMovies(movies, genreName);
+            
+        } catch (error) {
+            console.error('Error fetching movies by genre:', error);
+        }
+    }
+
+
+     function showGenreMovies(movies, genreName) {
+      
+        document.getElementById('genreSection')?.remove();
+        
+        const genreSection = document.createElement('div');
+        genreSection.className = 'movie-section';
+        genreSection.id = 'genreSection';
+        genreSection.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <button id="backToHomeBtn" style=" background: rgba(44, 42, 42, 0.7); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer;">←  Back</button>
+                <h3 style="margin: 0;">${genreName} Movies</h3>
+            </div>
+            <div class="movie-list-container">
+                <div class="movie-list" id="genreMoviesList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
+            </div>
+        `;
+
+        document.body.appendChild(genreSection);
+        
+        const moviesList = genreSection.querySelector('#genreMoviesList');
+        movies.forEach(movie => {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+                <p>${movie.title}</p>
+            `;
+            moviesList.appendChild(card);
+        });
+        
+        
+        document.getElementById('backToHomeBtn').addEventListener('click', () => {
+            document.querySelector('.main-content').style.display = 'flex';
+            document.querySelectorAll('.movie-section').forEach(section => {
+                if (section.id !== 'genreSection') {
+                    section.style.display = 'block';
+                }
+            });
+            genreSection.remove();
+        });
+        
+        
+        genreSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+   
+    categoriesBtn.addEventListener('click', (e) => {
+    console.log('Button clicked!');
+    e.stopPropagation();
+    isDropdownOpen = !isDropdownOpen;
+    console.log('isDropdownOpen:', isDropdownOpen);
+    categoriesDropdown.classList.toggle('show', isDropdownOpen);
+    console.log('Dropdown classes:', categoriesDropdown.classList.toString());
+});
+
+    document.addEventListener('click', (e) => {
+        if (!categoriesBtn.contains(e.target) && !categoriesDropdown.contains(e.target)) {
+            categoriesDropdown.classList.remove('show');
+            isDropdownOpen = false;
+        }
+    });
+
+    loadGenres();
+
     let currentIndex = 0;
     let topRatedPage = 1;
     let isLoading = false;
@@ -57,9 +172,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     renderSection("topRatedList", allMovies.topRated);
     renderSection("upcomingList", allMovies.upcoming);
-    renderSection("mostWatchedList", allMovies.nowPlaying); // Данните остават същите, но секцията е "Most Watched"
+    renderSection("mostWatchedList", allMovies.nowPlaying); 
 
-    // --- Scroll бутони за секции ---
     document.querySelectorAll(".movie-list-container").forEach(container => {
         const sectionId = container.dataset.section;
 

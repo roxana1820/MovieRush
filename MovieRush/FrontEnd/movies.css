@@ -13,6 +13,7 @@ body {
     padding: 15px 20px;
     background-color: #5e5b5b;
     color: #fff;
+    position: relative;
 }
 
 .site-title {
@@ -27,10 +28,78 @@ body {
     z-index: 2;
 }
 
+.categories-btn {
+    position: absolute;
+    left:5px;
+    top: 35px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    z-index: 3;
+}
+
+.categories-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.categories-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    margin-top: 8px;
+    background: #434141;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    min-width: 220px;
+    display: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.categories-dropdown.show {
+    display: block;
+}
+
+.category-item {
+    padding: 12px 16px;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.2s;
+    font-size: 14px;
+}
+
+.category-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.category-item:last-child {
+    border-bottom: none;
+}
+
+.categories-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.categories-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
 .search-bar {
     position: relative;
     display: flex;
     align-items: center;
+    margin-left:80px;
 }
 
 .search-bar button {
@@ -86,6 +155,7 @@ body {
     width: 90%;
     height: 600px;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .movie-info {

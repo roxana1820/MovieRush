@@ -4,6 +4,32 @@ const axios = require('axios');
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 
+router.get('/genres', async(req,res)=> {
+     try{
+        const response = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${TMDB_API_KEY}&language=en-US`);
+        res.json(response.data.genres);
+     }catch(error){
+        console.error('Error fetching genres:', error.message);
+        res.status(500).json({error:'Failed to fetch genres'});
+     }
+});
+
+router.get('/by-genre/:genreId', async (req, res) => {
+    try {
+        const genreId = req.params.genreId;
+        const page = req.query.page || 1;
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&with_genres=${genreId}&page=${page}`
+        );
+        res.json(response.data.results);
+    } catch (error) {
+        console.error('Error fetching movies by genre:', error.message);
+        res.status(500).json({ error: 'Failed to fetch movies by genre' });
+    }
+});
+
+
+
 router.get('/top-rated', async (req, res) => {
     try {
         const page = req.query.page || 1;
