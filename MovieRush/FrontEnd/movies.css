@@ -1,19 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@400;700&family=Playfair+Display&display=swap');
+
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #ddc6c6;
+    font-family: 'Playfair Display', serif;
     color: #333;
+  
+}
+
+.background-video {
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.5);
 }
 
 .header {
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #5e5b5b;
+    background-color: rgba(38, 36, 36, 0.7);
+    backdrop-filter: blur(3px);
     color: #fff;
-    position: relative;
+    z-index: 10;
 }
 
 .site-title {
@@ -24,7 +39,7 @@ body {
     font-weight: 700;
     color: #cfc6c6;
     text-shadow: 2px 4px 10px rgba(0,0,0,0.7);
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Abril Fatface', serif;
     z-index: 2;
 }
 
@@ -41,7 +56,7 @@ body {
     padding: 8px 12px;
     border-radius: 10px;
     transition: all 0.3s ease;
-    z-index: 3;
+    z-index: 1000;
 }
 
 .categories-btn:hover {
@@ -59,7 +74,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     max-height: 300px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 11;
     min-width: 220px;
     display: none;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -98,8 +113,7 @@ body {
 .search-bar {
     position: relative;
     display: flex;
-    align-items: center;
-    margin-left:80px;
+    align-items: center; 
 }
 
 .search-bar button {
@@ -142,7 +156,7 @@ body {
 .main-content {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 20px 50px;
 }
 
 .featured-movie {
@@ -203,16 +217,16 @@ body {
 }
 
 .up-next {
-    width: 25%;
-    background: rgba(79, 70, 70, 0.8); 
-    padding: 15px;
+    width: 30%;
+    background-color: rgba(38, 36, 36, 0.4);
     color: #fff;
     border-radius: 10px;
+    margin-right:40px;
 }
 
 .up-next h3 {
     margin-bottom: 15px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: #ffffff;
     text-align: center;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
@@ -223,7 +237,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-height: 450px;   
+    max-height: 500px;   
     overflow-y: auto;    
     padding-right: 5px;
 }
@@ -243,8 +257,8 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(55, 52, 52, 0.545);
-    padding: 8px;
+    background-color: rgba(38, 36, 36, 0.7);
+    padding: 10px;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
@@ -270,13 +284,13 @@ body {
 
 
 .movie-section {
-    margin: 30px 20px;
+    margin: 40px 70px;
 }
 
 .movie-section h3 {
-    color: #2d2e30;
+    color: #e0e3e8;
     margin-bottom: 10px;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .movie-list-container {
@@ -287,7 +301,7 @@ body {
 
 .movie-list {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     overflow-x: hidden;
     padding-bottom: 10px;
     scroll-behavior: smooth;
@@ -303,7 +317,7 @@ body {
 }
 
 .movie-card {
-    min-width: 150px;
+    min-width: 200px;
     background: #1c1c1c;
     border-radius: 6px;
     overflow: hidden;

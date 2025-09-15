@@ -21,6 +21,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
      function renderGenres() {
         categoriesDropdown.innerHTML = '';
+        const homeItem = document.createElement('div');
+        homeItem.className = 'category-item';
+        homeItem.textContent ='🏠 Home';
+        homeItem.addEventListener('click', () => {
+        window.location.href = 'index.html';
+        });
+        categoriesDropdown.appendChild(homeItem);
+
         genres.forEach(genre => {
             const item = document.createElement('div');
             item.className = 'category-item';
@@ -61,9 +69,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         genreSection.className = 'movie-section';
         genreSection.id = 'genreSection';
         genreSection.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                <button id="backToHomeBtn" style=" background: rgba(44, 42, 42, 0.7); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer;">←  Back</button>
-                <h3 style="margin: 0;">${genreName} Movies</h3>
+            <div style="margin-bottom: 20px;">
+            <button id="backToHomeBtn" style=" background: rgba(44, 42, 42, 0.7); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer;">←  Back</button>
+            <h3 style="margin: 10px 0 0 0;"> 🎬 ${genreName} Movies</h3>
             </div>
             <div class="movie-list-container">
                 <div class="movie-list" id="genreMoviesList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
@@ -135,12 +143,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         featuredDescription.textContent = movie.overview;
 
         upNextList.innerHTML = '';
-        const nextMovies = allMovies.popular.slice(currentIndex + 1, currentIndex + 6)
-            .concat(allMovies.popular.slice(0, Math.max(0, 5 - (allMovies.popular.length - currentIndex - 1))));
+        const nextMovies = allMovies.popular.slice(currentIndex + 1, currentIndex + 9)
+            .concat(allMovies.popular.slice(0, Math.max(0, 8 - (allMovies.popular.length - currentIndex - 1))));
         nextMovies.forEach(movie => {
             const item = document.createElement('div');
             item.classList.add('up-next-item');
             item.innerHTML = `<img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}"><span>${movie.title}</span>`;
+
+            item.addEventListener("click", () => {
+            currentIndex = allMovies.popular.findIndex(m => m.id === movie.id);
+            updateFeaturedMovie();
+             });
+
             upNextList.appendChild(item);
         });
     }
