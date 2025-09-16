@@ -29,10 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.style.fontWeight = "bold";
         messageDiv.style.marginTop = "10px";
 
-        if (tickerText) {
-            tickerText.textContent = message;
-            tickerText.style.color = type === "success" ? "lightgreen" : "red";
-        }
     }
 
     registerForm.addEventListener("submit", async function (event) {
@@ -59,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/auth/register", {
+            const response = await fetch("http://localhost:5001/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -103,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/auth/login", {
+            const response = await fetch("http://localhost:5001/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
