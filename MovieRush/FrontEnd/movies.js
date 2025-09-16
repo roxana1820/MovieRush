@@ -1,31 +1,29 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const response = await fetch("http://localhost:5001/api/movies/all");
+    const response = await fetch("https://movie-rush-96s3.onrender.com/api/movies/all");
     const allMovies = await response.json();
 
     const categoriesBtn = document.getElementById('categoriesBtn');
     const categoriesDropdown = document.getElementById('categoriesDropdown');
     let genres = [];
     let isDropdownOpen = false;
-   
 
     async function loadGenres(){
         try{
-            const response = await fetch("http://localhost:5001/api/movies/genres");
+            const response = await fetch("https://movie-rush-96s3.onrender.com/api/movies/genres");
             genres = await response.json();
             renderGenres();
-
         }catch(error){
             console.error('Error fetching genres:', error);
         }
     }
 
-     function renderGenres() {
+    function renderGenres() {
         categoriesDropdown.innerHTML = '';
         const homeItem = document.createElement('div');
         homeItem.className = 'category-item';
         homeItem.textContent ='🏠 Home';
         homeItem.addEventListener('click', () => {
-        window.location.href = 'index.html';
+            window.location.href = 'index.html';
         });
         categoriesDropdown.appendChild(homeItem);
 
@@ -40,25 +38,24 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function selectGenre(genreId, genreName) {
         try {
-
             categoriesDropdown.classList.remove('show');
             isDropdownOpen = false;
-            
-            const response = await fetch(`http://localhost:5001/api/movies/by-genre/${genreId}`);
+          
+            const response = await fetch(`https://movie-rush-96s3.onrender.com/api/movies/by-genre/${genreId}`);
             const movies = await response.json();
             
             document.querySelector('.main-content').style.display = 'none';
-            
             document.querySelectorAll('.movie-section').forEach(section => {
                 section.style.display = 'none';
             });
             
             showGenreMovies(movies, genreName);
-            
         } catch (error) {
             console.error('Error fetching movies by genre:', error);
         }
     }
+
+
 
 
      function showGenreMovies(movies, genreName) {
