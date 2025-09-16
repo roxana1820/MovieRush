@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const API_URL = "https://movie-rush-96s3.onrender.com/api"; 
-    
     const loginForm = document.getElementById("loginForm");
     const registerForm = document.getElementById("registerForm");
     const showLoginBtn = document.getElementById("showLogin");
@@ -30,9 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.style.color = type === "success" ? "lightgreen" : "red";
         messageDiv.style.fontWeight = "bold";
         messageDiv.style.marginTop = "10px";
+
     }
 
-    // Register
     registerForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -57,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch(`${API_URL}/auth/register`, {
+            const response = await fetch("http://localhost:5001/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -82,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Login
+
     loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -101,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
+            const response = await fetch("http://localhost:5001/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
