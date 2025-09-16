@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const API_BASE = "https://movie-rush-backend.onrender.com"; 
+
     const loginForm = document.getElementById("loginForm");
     const registerForm = document.getElementById("registerForm");
     const showLoginBtn = document.getElementById("showLogin");
@@ -6,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const guestLoginBtn = document.getElementById("moviesBtn");
     const loginMessageDiv = document.getElementById("loginMessage");
     const registerMessageDiv = document.getElementById("registerMessage");
-    const tickerText = document.querySelector(".ticker p");
 
     showLoginBtn.addEventListener("click", () => {
         loginForm.classList.remove("hidden");
@@ -28,9 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.style.color = type === "success" ? "lightgreen" : "red";
         messageDiv.style.fontWeight = "bold";
         messageDiv.style.marginTop = "10px";
-
     }
 
+ 
     registerForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -55,11 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch("http://localhost:5001/api/auth/register", {
+            const response = await fetch(`${API_BASE}/api/auth/register`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     username: email.split("@")[0],
                     email,
@@ -99,11 +98,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch("http://localhost:5001/api/auth/login", {
+            const response = await fetch(`${API_BASE}/api/auth/login`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             });
 
@@ -127,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
             showMessage("Server error, please try again later", "error", "login");
         }
     });
+
 
     const articleLinks = document.querySelectorAll(".sidebar-right .article-link");
     articleLinks.forEach(link => {

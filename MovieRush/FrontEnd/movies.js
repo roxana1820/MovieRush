@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const response = await fetch("http://localhost:5001/api/movies/all");
+    const API_BASE = "https://movie-rush-backend.onrender.com";
+
+    const response = await fetch(`${API_BASE}/api/movies/all`);
     const allMovies = await response.json();
 
     const categoriesBtn = document.getElementById('categoriesBtn');
@@ -7,10 +9,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     let genres = [];
     let isDropdownOpen = false;
    
-
     async function loadGenres(){
         try{
-            const response = await fetch("http://localhost:5001/api/movies/genres");
+            const response = await fetch(`${API_BASE}/api/movies/genres`);
             genres = await response.json();
             renderGenres();
 
@@ -19,13 +20,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-     function renderGenres() {
+    function renderGenres() {
         categoriesDropdown.innerHTML = '';
         const homeItem = document.createElement('div');
         homeItem.className = 'category-item';
         homeItem.textContent ='🏠 Home';
         homeItem.addEventListener('click', () => {
-        window.location.href = 'index.html';
+            window.location.href = 'index.html';
         });
         categoriesDropdown.appendChild(homeItem);
 
@@ -40,11 +41,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function selectGenre(genreId, genreName) {
         try {
-
             categoriesDropdown.classList.remove('show');
             isDropdownOpen = false;
             
-            const response = await fetch(`http://localhost:5001/api/movies/by-genre/${genreId}`);
+            const response = await fetch(`${API_BASE}/api/movies/by-genre/${genreId}`);
             const movies = await response.json();
             
             document.querySelector('.main-content').style.display = 'none';
@@ -60,11 +60,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-
-    
-
-     function showGenreMovies(movies, genreName) {
-      
+    function showGenreMovies(movies, genreName) {
         document.getElementById('genreSection')?.remove();
         
         const genreSection = document.createElement('div');
@@ -93,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             moviesList.appendChild(card);
         });
         
-        
         document.getElementById('backToHomeBtn').addEventListener('click', () => {
             document.querySelector('.main-content').style.display = 'flex';
             document.querySelectorAll('.movie-section').forEach(section => {
@@ -104,19 +99,17 @@ document.addEventListener("DOMContentLoaded", async function () {
             genreSection.remove();
         });
         
-        
         genreSection.scrollIntoView({ behavior: 'smooth' });
     }
     
-   
     categoriesBtn.addEventListener('click', (e) => {
-    console.log('Button clicked!');
-    e.stopPropagation();
-    isDropdownOpen = !isDropdownOpen;
-    console.log('isDropdownOpen:', isDropdownOpen);
-    categoriesDropdown.classList.toggle('show', isDropdownOpen);
-    console.log('Dropdown classes:', categoriesDropdown.classList.toString());
-});
+        console.log('Button clicked!');
+        e.stopPropagation();
+        isDropdownOpen = !isDropdownOpen;
+        console.log('isDropdownOpen:', isDropdownOpen);
+        categoriesDropdown.classList.toggle('show', isDropdownOpen);
+        console.log('Dropdown classes:', categoriesDropdown.classList.toString());
+    });
 
     document.addEventListener('click', (e) => {
         if (!categoriesBtn.contains(e.target) && !categoriesDropdown.contains(e.target)) {
@@ -153,9 +146,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             item.innerHTML = `<img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}"><span>${movie.title}</span>`;
 
             item.addEventListener("click", () => {
-            currentIndex = allMovies.popular.findIndex(m => m.id === movie.id);
-            updateFeaturedMovie();
-             });
+                currentIndex = allMovies.popular.findIndex(m => m.id === movie.id);
+                updateFeaturedMovie();
+            });
 
             upNextList.appendChild(item);
         });
