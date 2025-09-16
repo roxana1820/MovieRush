@@ -17,6 +17,14 @@ app.use('/api/auth', authRoutes);
 const moviesRoutes = require('./routes/moviesRoutes');
 app.use('/api/movies', moviesRoutes);
 
+
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, '../FrontEnd')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html'));
+});
+
 // DB + Server
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
