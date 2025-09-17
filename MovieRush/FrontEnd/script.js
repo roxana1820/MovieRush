@@ -152,6 +152,13 @@ allLinks.forEach(link => {
     }
 });
 
-
+ const video = document.getElementById("bg-video");
+    if (video) {
+        video.play().catch(() => {
+            document.body.addEventListener("touchstart", () => {
+                video.play();
+            }, { once: true });
+        });
+    }
 
 });
