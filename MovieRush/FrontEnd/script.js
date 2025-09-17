@@ -127,31 +127,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     const articleLinks = document.querySelectorAll(".sidebar-right .article-link");
-    articleLinks.forEach(link => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const description = link.nextElementSibling;
-            const isVisible = description.classList.contains("show");
-            document.querySelectorAll(".article-description").forEach(desc => {
-                desc.classList.remove("show");
-            });
-            if (!isVisible) {
-                description.classList.add("show");
-            }
-             window.open(link.href, "_blank");
+articleLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const description = link.nextElementSibling;
+        const isVisible = description.classList.contains("show");
+        document.querySelectorAll(".article-description").forEach(desc => {
+            desc.classList.remove("show");
         });
-    });
-
-    const allLinks = document.querySelectorAll("a");
-    allLinks.forEach(link => {
-        const href = link.getAttribute("href");
-        if (href && (href.includes("youtube.com") || href.includes("youtu.be"))) {
-            link.addEventListener("click", (e) => {
-                e.preventDefault();
-                window.open(href, "_blank");
-            });
+        if (!isVisible) {
+            description.classList.add("show");
         }
     });
+});
+
+const allLinks = document.querySelectorAll("a");
+allLinks.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href && (href.includes("youtube.com") || href.includes("youtu.be"))) {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.open(href, "_blank");
+        });
+    }
+});
+
 
 
 });
