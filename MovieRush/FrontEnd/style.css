@@ -323,3 +323,126 @@ button:hover {
 .hidden {
   display: none;
 }
+
+/*Responsive design for mobiles*/
+@media (max-width: 768px) {
+
+  body {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    height: auto;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .nav-link {
+    font-size: 16px;
+  }
+
+  .nav-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+
+  .site-title {
+    position: relative;
+    margin-top:40px;
+    font-size: 44px;
+    text-align: center;
+    left: 20%;
+    transform: translateX(-50%);
+  }
+
+.intro-text {
+  font-size: 28px;
+  color: #c1b7b7;
+  font-family: 'Abril Fatface', serif;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInText 2s ease-in-out forwards;
+  animation-delay: 0.5s; 
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  max-width: 80%;
+  margin: 20px auto 0 auto;
+}
+  .container {
+    margin-top: 110px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+  }
+
+ .form-container {
+    max-width: 70%;     
+    margin-top: 40px;    
+    margin-left: 70px;   
+    display: flex;
+    justify-content: center;
+}
+
+  .sidebar,
+  .sidebar-right {
+    position: relative;
+    top: 5px;
+    left: auto;
+    right: auto;
+    width: 80%;
+    margin: 10px auto;
+  }
+  
+  .ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 10px 0;
+    z-index: 2000;
+  }
+
+  .ticker p {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .site-title {
+    font-size: 28px;
+  }
+
+  .intro-text {
+    font-size: 14px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  .nav-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
