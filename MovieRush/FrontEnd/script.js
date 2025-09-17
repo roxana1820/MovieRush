@@ -138,6 +138,20 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!isVisible) {
                 description.classList.add("show");
             }
+             window.open(link.href, "_blank");
         });
     });
+
+    const allLinks = document.querySelectorAll("a");
+    allLinks.forEach(link => {
+        const href = link.getAttribute("href");
+        if (href && (href.includes("youtube.com") || href.includes("youtu.be"))) {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                window.open(href, "_blank");
+            });
+        }
+    });
+
+
 });
