@@ -81,12 +81,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .form {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  backdrop-filter: blur(3px);
 }
 
 .form h3 {
