@@ -66,4 +66,29 @@ router.get('/all', async (req, res) => {
     }
 });
 
+//for the movies details page
+router.get('/details/:id',async(req,res) => {
+  try {
+   const movieId = req.params.id;
+   const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+    res.json(response.data);
+  } catch(error){
+    console.error('Error fetching movie details:', error.message);
+    res.status(500).json({ error: 'Failed to fetch movie details' });
+  }
+});
+
+router.get('/details/:id/credits', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${TMDB_API_KEY}`);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching movie credits:', error.message);
+        res.status(500).json({ error: 'Failed to fetch movie credits' });
+    }
+});
+
 module.exports = router;

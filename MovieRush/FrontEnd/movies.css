@@ -28,7 +28,7 @@ body {
     background-color: rgba(38, 36, 36, 0.7);
     backdrop-filter: blur(3px);
     color: #fff;
-    z-index: 10;
+
 }
 
 .site-title {
@@ -330,7 +330,7 @@ body {
 }
 
 .movie-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.15);
 }
 
 .movie-card img {
