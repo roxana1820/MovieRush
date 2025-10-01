@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const API_BASE = "https://movie-rush-qxcb.onrender.com";
+    const API_BASE = config.API_BASE;
 
     const response = await fetch(`${API_BASE}/api/movies/all`);
     const allMovies = await response.json();
@@ -167,18 +167,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     updateFeaturedMovie();
 
     function renderSection(sectionId, movies) {
-        const list = document.getElementById(sectionId);
-        movies.forEach(movie => {
-            const card = document.createElement('div');
-            card.classList.add('movie-card');
-            card.innerHTML = `
-                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
-                <p>${movie.title}</p>
-            `;
-            list.appendChild(card);
+    const list = document.getElementById(sectionId);
+    movies.forEach(movie => {
+        const card = document.createElement('div');
+        card.classList.add('movie-card');
+        card.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+            <p>${movie.title}</p>
+        `;
+        card.addEventListener("click", () => {
+            window.location.href = `movieDetails.html?id=${movie.id}`;
         });
-    }
-
+        list.appendChild(card);
+    });
+}
     renderSection("topRatedList", allMovies.topRated);
     renderSection("upcomingList", allMovies.upcoming);
     renderSection("mostWatchedList", allMovies.nowPlaying); 
