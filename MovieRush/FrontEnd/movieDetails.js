@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const API_BASE = "https://movie-rush-qxcb.onrender.com";
-
+    const API_BASE = config.API_BASE;
     const params = new URLSearchParams(window.location.search);
     const movieId = params.get("id");
 
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-       
         const response = await fetch(`${API_BASE}/api/movies/details/${movieId}`);
         const movie = await response.json();
 
@@ -34,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
     } catch (error) {
         console.error('Error loading movie details:', error);
-        detailsDiv.innerHTML = "<p style='color:white;'>Error loading details.</p>";
+        detailsDiv.innerHTML = `<p style='color:white;'>Error loading details: ${error.message}</p>`;
+
     }
 });

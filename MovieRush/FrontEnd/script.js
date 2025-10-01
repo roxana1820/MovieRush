@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const API_BASE = "https://movie-rush-qxcb.onrender.com"; 
+    const API_BASE = config.API_BASE; 
 
     const loginForm = document.getElementById("loginForm");
     const registerForm = document.getElementById("registerForm");

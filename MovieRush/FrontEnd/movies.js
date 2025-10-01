@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const API_BASE = "https://movie-rush-qxcb.onrender.com";
+    const API_BASE = config.API_BASE;
 
     const response = await fetch(`${API_BASE}/api/movies/all`);
     const allMovies = await response.json();
