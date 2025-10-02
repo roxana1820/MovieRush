@@ -100,4 +100,24 @@ router.get('/details/:id/credits', async (req, res) => {
     }
 });
 
+router.get('/details/:id/videos', async (req, res) => {
+  try {
+    const movieId = req.params.id;
+    if (!movieId || isNaN(movieId)) {
+      return res.status(400).json({ error: 'Invalid movie ID' });
+    }
+
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+
+    res.json(response.data); 
+  } catch (error) {
+    console.error('Error fetching movie videos:', error.message);
+    res.status(500).json({ error: 'Failed to fetch movie videos' });
+  }
+});
+
+
+
 module.exports = router;
