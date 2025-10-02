@@ -7,28 +7,28 @@
   <link rel="stylesheet" href="movieDetails.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter&display=swap" rel="stylesheet">
   <script src="config.js"></script>
-  <script src="movieDetails.js"></script>
+  <script src="movieDetails.js" defer></script>
 </head>
 <body>
-    <video autoplay muted loop class ="background-video">
-        <source src="cinema.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+  <video autoplay muted loop class ="background-video">
+    <source src="cinema.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-    <div class="header">
-        
+  <div class="header">
+    <h1 class="site-title">🎬 MovieRush</h1>
+  </div>
 
-        <h1 class="site-title">🎬 MovieRush</h1>
+  <div class="movie-details-container" id="movieDetails">
+    <img id="moviePoster" src="" alt="">
+    <div class="movie-details-content">
+      <h2 id="movieTitle"></h2>
+      <p id="movieRating"></p>
+      <p id="movieActors"></p>
+      <p id="movieOverview"></p>
+      <button class="watch-trailer-btn" id="watchTrailerBtn">▶ Watch Trailer</button>
     </div>
-
-    <div class="movie-details-container" id="movieDetails"></div>
-        
+  </div>
 
 </body>
-
-
-
-
-
-
 </html>
