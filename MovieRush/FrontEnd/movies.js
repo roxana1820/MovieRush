@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         genreSection.id = 'genreSection';
         genreSection.innerHTML = `
             <div style="margin-bottom: 20px;">
-            <button id="backToHomeBtn" style=" background: rgba(44, 42, 42, 0.7); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer;">←  Back</button>
+           <button id="backToHomeBtn" class="go-back-btn">← Back</button>
             <h3 style="margin: 10px 0 0 0;"> 🎬 ${genreName} Movies</h3>
             </div>
             <div class="movie-list-container">
@@ -86,6 +86,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
                 <p>${movie.title}</p>
             `;
+
+             card.addEventListener("click", () => {
+            window.location.href = `movieDetails.html?id=${movie.id}`;
+            });
+
             moviesList.appendChild(card);
         });
         
@@ -242,6 +247,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
                     <p>${movie.title}</p>
                 `;
+                card.addEventListener("click", () => {
+                window.location.href = `movieDetails.html?id=${movie.id}`;
+            });
                 resultsList.appendChild(card);
             });
         } else {

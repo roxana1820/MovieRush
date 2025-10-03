@@ -28,7 +28,7 @@ body {
     background-color: rgba(38, 36, 36, 0.7);
     backdrop-filter: blur(3px);
     color: #fff;
-
+    z-index:20;
 }
 
 .site-title {
@@ -75,7 +75,6 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     max-height: 300px;
     overflow-y: auto;
-    z-index: 11;
     min-width: 220px;
     display: none;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -110,6 +109,25 @@ body {
     background: rgba(255, 255, 255, 0.3);
     border-radius: 3px;
 }
+
+.go-back-btn {
+  left: 20px; 
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #797474;
+  padding: 8px 18px; 
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.go-back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
+
 
 .search-bar {
     position: relative;

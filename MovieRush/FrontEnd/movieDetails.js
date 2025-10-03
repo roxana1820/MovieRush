@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     titleEl.textContent = "No movie selected.";
     return;
   }
-
+  
   try {
     // Movie details
     const response = await fetch(`${API_BASE}/api/movies/details/${movieId}`);
