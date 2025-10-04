@@ -1,8 +1,21 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const API_BASE = config.API_BASE;
+  console.log('API_BASE:', API_BASE);
 
-  const response = await fetch(`${API_BASE}/api/movies/all`);
-  const allMovies = await response.json();
+  let allMovies;
+  try {
+    const response = await fetch(`${API_BASE}/api/movies/all`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    allMovies = await response.json();
+  } catch (error) {
+    console.error('Error fetching movies:', error.message);
+    alert(`⚠️ Unable to load movies. There was an error connecting to the server ${API_BASE}. Please check your connection and try again.`);
+    return; // Exit early if we can't load movies
+  }
 
   const categoriesBtn = document.getElementById('categoriesBtn');
   const categoriesDropdown = document.getElementById('categoriesDropdown');
@@ -13,8 +26,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   profileBtn.style.display = 'none';
 
   try {
-    console.log('API_BASE:', API_BASE);
-
     const res = await fetch(`${API_BASE}/api/auth/me`, {
       credentials: 'include'
     });
