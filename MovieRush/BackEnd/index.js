@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://movie-rush-qxcb.onrender.com',
+  origin: true,
   credentials: true 
 }));
 
@@ -32,14 +32,6 @@ app.use('/api/movies', moviesRoutes);
 //Favorites routes
 const favoritesRoutes = require('./routes/favorites');
 app.use('/api/favorites', favoritesRoutes);
-
-
-const path = require('path');
-
-app.use(express.static(path.join(__dirname, '../FrontEnd')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../FrontEnd', 'index.html'));
-});
 
 // DB + Server
 mongoose.connect(process.env.MONGO_URI, {
