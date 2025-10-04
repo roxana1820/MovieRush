@@ -171,6 +171,56 @@ body {
     box-shadow: 0 0 8px rgba(255, 253, 253, 0.966); 
 }
 
+#profileBtn {
+    display: none;
+}
+
+.dropdown {
+  position: absolute;
+  right: 20px;
+  display: inline-block;
+}
+
+
+.dropbtn {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #797474;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #1c1c1c;
+  min-width: 180px;
+  border: 1px solid #797474;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 
 .main-content {
     display: flex;

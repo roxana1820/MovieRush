@@ -10,8 +10,11 @@ exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
+
+    req.session.userId = newUser._id;
 
     res.status(201).json({ message: 'User registered successfully!' });
   } catch (err) {
@@ -30,14 +33,22 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    req.session.userId = user._id;
 
-    res.status(200).json({ message: 'Login successful!' });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(200).json({
+      message: 'Login successful!',
+       user: { id: user._id, username: user.username, favorites: user.favorites }
+    });
+  }catch(err){
+    res.status(500).json({message: 'Something went wrong'});
   }
+};
+
+//logout
+exports.logout = (req,res) => {
+  req.session.destroy(err => {
+    if(err) return res.status(500).json({message: 'Logout failed'});
+    res.clearCookie('connect.sid');
+    res.json({message: 'Logged out successfully!'});
+  });
 };
