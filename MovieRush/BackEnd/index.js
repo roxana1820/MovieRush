@@ -20,6 +20,14 @@ app.use(session({
   cookie: { secure: true } 
 }));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    message: 'Server is running',
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Auth routes
 const authRoutes = require('./routes/auth');

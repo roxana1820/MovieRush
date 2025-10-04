@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const API_BASE = config.API_BASE; 
+document.addEventListener("DOMContentLoaded", async function () {
+    const API_BASE = config.API_BASE;
 
     const loginForm = document.getElementById("loginForm");
     const registerForm = document.getElementById("registerForm");
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.style.marginTop = "10px";
     }
 
- 
+
     registerForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -128,32 +128,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     const articleLinks = document.querySelectorAll(".sidebar-right .article-link");
-articleLinks.forEach(link => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const description = link.nextElementSibling;
-        const isVisible = description.classList.contains("show");
-        document.querySelectorAll(".article-description").forEach(desc => {
-            desc.classList.remove("show");
-        });
-        if (!isVisible) {
-            description.classList.add("show");
-        }
-    });
-});
-
-const allLinks = document.querySelectorAll("a");
-allLinks.forEach(link => {
-    const href = link.getAttribute("href");
-    if (href && (href.includes("youtube.com") || href.includes("youtu.be"))) {
+    articleLinks.forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
-            window.open(href, "_blank");
+            const description = link.nextElementSibling;
+            const isVisible = description.classList.contains("show");
+            document.querySelectorAll(".article-description").forEach(desc => {
+                desc.classList.remove("show");
+            });
+            if (!isVisible) {
+                description.classList.add("show");
+            }
         });
-    }
-});
+    });
 
- const video = document.getElementById("bg-video");
+    const allLinks = document.querySelectorAll("a");
+    allLinks.forEach(link => {
+        const href = link.getAttribute("href");
+        if (href && (href.includes("youtube.com") || href.includes("youtu.be"))) {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                window.open(href, "_blank");
+            });
+        }
+    });
+
+    const video = document.getElementById("bg-video");
     if (video) {
         video.play().catch(() => {
             document.body.addEventListener("touchstart", () => {
@@ -161,5 +161,42 @@ allLinks.forEach(link => {
             }, { once: true });
         });
     }
+
+    // Health check function
+    async function checkServerHealth() {
+        try {
+            // Create AbortController for timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+            const response = await fetch(`${API_BASE}/health`, {
+                method: 'GET',
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId); // Clear timeout if request succeeds
+
+            if (!response.ok) {
+                throw new Error(`Server returned ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.status !== 'ok') {
+                throw new Error('Server health check failed');
+            }
+
+            console.log('✅ Server health check passed');
+        } catch (error) {
+            console.error('❌ Server health check failed:', error.message);
+            if (error.name === 'AbortError') {
+                alert(`⚠️ Server connection timed out after 5 seconds. Please check your connection and try again.`);
+            } else {
+                alert(`⚠️ Unable to connect to server at ${API_BASE}. Please check your connection and try again.`);
+            }
+        }
+    }
+
+    // Run health check when page loads
+    await checkServerHealth();
 
 });
