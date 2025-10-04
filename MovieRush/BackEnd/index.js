@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5001',
+  origin: 'https://movie-rush-qxcb.onrender.com',
   credentials: true 
 }));
 
@@ -17,7 +17,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } 
+  cookie: { secure: true } 
 }));
 
 

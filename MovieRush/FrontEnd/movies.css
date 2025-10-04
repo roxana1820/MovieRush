@@ -171,6 +171,10 @@ body {
     box-shadow: 0 0 8px rgba(255, 253, 253, 0.966); 
 }
 
+#profileBtn {
+    display: none;
+}
+
 .dropdown {
   position: absolute;
   right: 20px;

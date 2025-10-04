@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   let isDropdownOpen = false;
 
   const profileBtn = document.getElementById('profileBtn');
+  profileBtn.style.display = 'none';
 
   try {
     console.log('API_BASE:', API_BASE);
