@@ -8,7 +8,7 @@ router.post('/logout', logout);
 
 router.get('/me', async (req, res) => {
   try {
-    console.log('=== /me called ==='); 
+    console.log('=== /me called ===');
     console.log('Session userId:', req.session.userId);  
 
     if (!req.session.userId) {
