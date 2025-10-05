@@ -14,9 +14,16 @@ exports.register = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    req.session.userId = newUser._id;
+    req.session.userId = newUser._id.toString();
 
-    res.status(201).json({ message: 'User registered successfully!' });
+    // Explicitly save the session
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(500).json({ message: 'Session error' });
+      }
+      res.status(201).json({ message: 'User registered successfully!' });
+    });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong' });
   }
@@ -33,11 +40,26 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    req.session.userId = user._id;
+    req.session.userId = user._id.toString();
+    
+    // Explicitly save the session before sending response
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(500).json({ message: 'Session error' });
+      }
+      
+      console.log('=== LOGIN SUCCESS ===');
+      console.log('Request origin:', req.headers.origin);
+      console.log('Session ID:', req.sessionID);
+      console.log('Session userId set to:', req.session.userId);
+      console.log('Session userId type:', typeof req.session.userId);
+      console.log('Session cookie will be sent:', req.session.cookie);
 
-    res.status(200).json({
-      message: 'Login successful!',
-       user: { id: user._id, username: user.username, favorites: user.favorites }
+      res.status(200).json({
+        message: 'Login successful!',
+        user: { id: user._id, username: user.username, favorites: user.favorites }
+      });
     });
   }catch(err){
     res.status(500).json({message: 'Something went wrong'});

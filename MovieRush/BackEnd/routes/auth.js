@@ -9,14 +9,17 @@ router.post('/logout', logout);
 router.get('/me', async (req, res) => {
   try {
     console.log('=== /me called ===');
-    console.log('Session userId:', req.session.userId);  
+    console.log('Request origin:', req.headers.origin);
+    console.log('Session ID:', req.sessionID);
+    console.log('Session userId:', req.session.userId);
+    console.log('Session userId type:', typeof req.session.userId);
+    console.log('Cookies received:', req.headers.cookie);
 
     if (!req.session.userId) {
       console.log('No userId – not logged in');
       return res.json({ loggedIn: false });
     }
 
-  
     const User = require('../models/User');  
     const user = await User.findById(req.session.userId).select('-password');  
 

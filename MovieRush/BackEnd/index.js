@@ -8,16 +8,41 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: true,
-  credentials: true 
-}));
+
+// CORS configuration - must allow credentials
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost and 127.0.0.1 on any port
+    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  exposedHeaders: ['Set-Cookie']
+};
+
+app.use(cors(corsOptions));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'fallback-secret-key-for-development',
   resave: false,
-  saveUninitialized: false,
-  cookie: { httpOnly: true, secure: false, sameSite: 'lax' } 
+  saveUninitialized: true,
+  cookie: { 
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',  // lax works when both are on same domain (127.0.0.1)
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/',
+    domain: '127.0.0.1'  // Explicitly set domain
+  },
+  name: 'connect.sid'
 }));
 
 // Health check endpoint

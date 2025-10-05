@@ -102,7 +102,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             const response = await fetch(`${API_BASE}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, password }),
+                credentials: 'include'
             });
 
             const data = await response.json();
