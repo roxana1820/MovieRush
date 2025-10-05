@@ -8,16 +8,60 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: true,
-  credentials: true 
-}));
+
+// CORS configuration - works for both development and production
+const allowedOrigins = [
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'https://movie-rush-qxcb.onrender.com',  // Your production frontend URL
+  // Add any other production URLs here
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, or curl)
+    if (!origin) return callback(null, true);
+    
+    // In development, allow any localhost/127.0.0.1
+    if (process.env.NODE_ENV !== 'production') {
+      if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+        return callback(null, true);
+      }
+    }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('Blocked by CORS:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  exposedHeaders: ['Set-Cookie']
+};
+
+app.use(cors(corsOptions));
+
+// Session configuration - works for both development and production
+const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'fallback-secret-key-for-development',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true } 
+  saveUninitialized: true,
+  cookie: { 
+    httpOnly: true,
+    secure: isProduction,  // true in production (HTTPS), false in development
+    sameSite: isProduction ? 'none' : 'lax',  // 'none' for cross-origin in production, 'lax' for localhost
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/'
+    // Don't set domain - let it default to the request domain
+  },
+  name: 'connect.sid',
+  proxy: isProduction  // Trust proxy in production (Render uses proxies)
 }));
 
 // Health check endpoint
