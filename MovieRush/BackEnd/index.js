@@ -13,7 +13,8 @@ app.use(express.json());
 const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:5500',
-  'https://movie-rush-qxcb.onrender.com',  // Your production frontend URL
+  'https://movie-rush-qxcb.onrender.com', 
+  'https://movierush-0dl7.onrender.com' // Your production frontend URL
   // Add any other production URLs here
 ];
 
@@ -68,7 +69,7 @@ app.use(session({
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'ok', 
-    message: 'Server is running',
+    message: 'Server is running\nv1.0.0',
     timestamp: new Date().toISOString()
   });
 });
