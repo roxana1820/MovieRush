@@ -9,6 +9,114 @@ document.addEventListener("DOMContentLoaded", async () => {
   const actorsEl = document.getElementById("movieActors");
   const overviewEl = document.getElementById("movieOverview");
   const trailerBtn = document.getElementById("watchTrailerBtn");
+ 
+  const profileBtn = document.getElementById('profileBtn');
+  profileBtn.style.display = 'none';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/me`, {
+      credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error(res.status);
+
+    const data = await res.json();
+    if (data.loggedIn === true || data.user) {
+      profileBtn.style.display = 'block';
+    } else {
+      profileBtn.style.display = 'none';
+    }
+  } catch (err) {
+    profileBtn.style.display = 'none';
+  }
+
+  // favorites
+  const favoritesLink = document.getElementById('favoritesLink');
+  if (favoritesLink) {
+    favoritesLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await showFavoritesList();
+    });
+  }
+
+  async function showFavoritesList() {
+    try {
+      const res = await fetch(`${API_BASE}/api/favorites`, {
+        credentials: 'include'
+      });
+
+      if (!res.ok) {
+        alert('Please log in to view your favorite movies.');
+        return;
+      }
+
+      const data = await res.json();
+
+      document.querySelector('.main-content').style.display = 'none';
+
+      document.getElementById('favoritesSection')?.remove();
+
+      const favoritesSection = document.createElement('div');
+      favoritesSection.className = 'movie-section';
+      favoritesSection.id = 'favoritesSection';
+      favoritesSection.innerHTML = `
+  <div style="margin-bottom: 20px;">
+    <button id="backToHomeBtn" class="go-back-btn" style="position: static; display: block; margin: 0 0 20px 0;">← Back</button>
+    <h3 style="margin: 10px 0 0 0;"> ❤️ Your Favorites</h3>
+  </div>
+  <div class="movie-list-container">
+    <div class="movie-list" id="favoritesList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
+  </div>
+`;
+      document.body.appendChild(favoritesSection);
+
+      const favoritesList = favoritesSection.querySelector('#favoritesList');
+
+      if (data.favorites.length === 0) {
+        favoritesList.innerHTML = `<p style="color:white; font-size:1rem;">You don't have any favorite movies yet.</p>`;
+      } else {
+        for (const movieId of data.favorites) {
+          const movieRes = await fetch(`${API_BASE}/api/movies/details/${movieId}`);
+          const movie = await movieRes.json();
+
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+          card.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+            <p>${movie.title}</p>
+          `;
+          card.addEventListener("click", () => {
+            window.location.href = `movieDetails.html?id=${movie.id}`;
+          });
+          favoritesList.appendChild(card);
+        }
+      }
+
+      favoritesSection.querySelector('#backToHomeBtn').addEventListener('click', () => {
+        document.querySelector('.main-content').style.display = 'block';
+        favoritesSection.remove();
+      });
+
+      favoritesSection.scrollIntoView({ behavior: 'smooth' });
+
+    } catch (err) {
+      console.error(err);
+      alert('Error loading favorites.');
+    }
+  }
+
+  // logout
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await fetch(`${API_BASE}/api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+      window.location.href = 'index.html';
+    });
+  }
 
   if (!movieId) {
     titleEl.textContent = "No movie selected.";

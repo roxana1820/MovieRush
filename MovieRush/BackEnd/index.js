@@ -9,6 +9,7 @@ const app = express();
 
 app.use(express.json());
 
+
 // CORS configuration - works for both development and production
 const allowedOrigins = [
   'http://localhost:5500',

@@ -18,8 +18,17 @@
   <div class="header">
      <button class="go-back-btn" onclick="history.back()">⬅ Go Back</button>
     <h1 class="site-title">🎬 MovieRush</h1>
+    <div class="dropdown">
+    <button id="profileBtn" class="dropbtn">👤 Profile ▼</button>
+    <div class="dropdown-content">
+      <a href="#" id="favoritesLink">❤️ Your Favorites</a>
+      <a href="#" id="logoutBtn">🚪 Logout</a>
+    </div>
+  </div>
   </div>
 
+
+  <div class="main-content">
   <div class="movie-details-container" id="movieDetails">
     <img id="moviePoster" src="" alt="">
     <div class="movie-details-content">
@@ -29,6 +38,7 @@
       <p id="movieOverview"></p>
       <button class="watch-trailer-btn" id="watchTrailerBtn">▶ Watch Trailer</button>
     </div>
+  </div>
   </div>
 
 </body>
