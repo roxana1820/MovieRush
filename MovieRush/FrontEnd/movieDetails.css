@@ -143,6 +143,33 @@ body {
   line-height: 28px;
 }
 
+/* fav */
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 28px; 
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 5;  
+  opacity: 0.8;
+}
+
+.favorite-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);  
+  color: #e50914;  
+}
+
+.favorite-btn.added {
+  color: #e50914;  
+}
+
+
+
 .watch-trailer-btn {
   display: block;
   margin: 60px auto 0 auto; 

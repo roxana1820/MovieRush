@@ -9,9 +9,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const actorsEl = document.getElementById("movieActors");
   const overviewEl = document.getElementById("movieOverview");
   const trailerBtn = document.getElementById("watchTrailerBtn");
+  const favoriteBtn = document.getElementById("favoriteBtn");
  
   const profileBtn = document.getElementById('profileBtn');
   profileBtn.style.display = 'none';
+
+  if (favoriteBtn) favoriteBtn.style.display = 'none';
+  let isLoggedIn = false;
 
   try {
     const res = await fetch(`${API_BASE}/api/auth/me`, {
@@ -23,8 +27,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
     if (data.loggedIn === true || data.user) {
       profileBtn.style.display = 'block';
+      if(favoriteBtn) favoriteBtn.style.display = 'block';
+      isLoggedIn = true;
     } else {
       profileBtn.style.display = 'none';
+      if(favoriteBtn) favoriteBtn.style.display ='none';
     }
   } catch (err) {
     profileBtn.style.display = 'none';
@@ -105,6 +112,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  async function toggleFavorite() {
+    if(!isLoggedIn) {
+      alert('Please log in to add to favorites.');
+      return;
+    }
+
+    const isAdded = favoriteBtn.classList.contains('added');
+    const endpoint = isAdded ? '/remove' : '/add';
+    const body = { movieId: parseInt(movieId) };
+
+    try {
+      const res = await fetch(`${API_BASE}/api/favorites${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to toggle favorite');
+      }
+
+      const data = await res.json();
+      console.log('Favorites updated:', data.favorites);
+
+     if (isAdded) {
+        favoriteBtn.textContent = '♡';
+        favoriteBtn.classList.remove('added');
+        console.log('Removed from favorites');
+      } else {
+        favoriteBtn.textContent = '❤️';
+        favoriteBtn.classList.add('added');
+        console.log('Added to favorites');
+      }
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+      alert('Error updating favorites. Please try again.');
+    }
+  }
+
+  if (favoriteBtn) {
+    favoriteBtn.addEventListener('click', toggleFavorite);
+  }
+
+
+
   // logout
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
@@ -141,6 +194,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     ratingEl.innerHTML = `<strong>Rating:</strong> ⭐ ${movie.vote_average}`;
     actorsEl.innerHTML = `<strong>Main Actors:</strong> ${topCast}`;
     overviewEl.innerHTML = `<strong>Description:</strong> ${movie.overview}`;
+
+    if (isLoggedIn && favoriteBtn) {
+      try {
+        const favRes = await fetch(`${API_BASE}/api/favorites`, { credentials: 'include' });
+        if (favRes.ok) {
+          const favData = await favRes.json();
+          const isAdded = favData.favorites.includes(parseInt(movieId));
+          if (isAdded) {
+            favoriteBtn.textContent = '❤️';
+            favoriteBtn.classList.add('added');
+          } else {
+            favoriteBtn.textContent = '♡';
+            favoriteBtn.classList.remove('added');
+          }
+        }
+      } catch (favErr) {
+        console.error('Error checking favorites:', favErr);
+      }
+    }
 
     trailerBtn.addEventListener("click", async () => {
       try {
