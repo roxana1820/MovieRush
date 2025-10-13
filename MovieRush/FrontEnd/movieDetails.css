@@ -233,9 +233,6 @@ body {
     cursor: pointer;
 }
 
-.movie-card:hover {
-    transform: scale(1.15);
-}
 
 .movie-card img {
     width: 100%;
