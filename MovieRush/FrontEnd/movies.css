@@ -25,7 +25,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: rgba(38, 36, 36, 0.7);
+    background-color: rgba(38, 36, 36, 0.4);
     backdrop-filter: blur(3px);
     color: #fff;
     z-index:20;
@@ -154,7 +154,7 @@ body {
     border: none;
     border-radius: 25px;
     outline: none;
-    background: #434141;
+    background-color: rgba(61, 59, 59, 0.4);
     color: white;
     transition: all 0.3s ease;
 }
@@ -326,7 +326,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: rgba(38, 36, 36, 0.7);
+    background-color: rgba(33, 31, 31, 0.7);
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;

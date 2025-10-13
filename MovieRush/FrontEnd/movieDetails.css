@@ -150,7 +150,7 @@ body {
   right: 10px;
   background: none;
   border: none;
-  font-size: 28px; 
+  font-size: 32px; 
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -167,8 +167,6 @@ body {
 .favorite-btn.added {
   color: #e50914;  
 }
-
-
 
 .watch-trailer-btn {
   display: block;
