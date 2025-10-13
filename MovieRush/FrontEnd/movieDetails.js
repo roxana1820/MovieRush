@@ -92,9 +92,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
             <p>${movie.title}</p>
           `;
-          card.addEventListener("click", () => {
-            window.location.href = `movieDetails.html?id=${movie.id}`;
-          });
+
+           card.addEventListener("click" , (e) => {
+             if(e.target.classList.contains('remove-btn')) return;
+             window.location.href =  `movieDetails.html?id=${movie.id}`;
+           });
+
+          
+         
           favoritesList.appendChild(card);
         }
       }
@@ -120,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const isAdded = favoriteBtn.classList.contains('added');
     const endpoint = isAdded ? '/remove' : '/add';
-    const body = { movieId: parseInt(movieId) };
+    const body = { movieId: movieId.toString() };
 
     try {
       const res = await fetch(`${API_BASE}/api/favorites${endpoint}`, {
@@ -200,7 +205,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const favRes = await fetch(`${API_BASE}/api/favorites`, { credentials: 'include' });
         if (favRes.ok) {
           const favData = await favRes.json();
-          const isAdded = favData.favorites.includes(parseInt(movieId));
+          const isAdded = favData.favorites.some(id => id.toString() === movieId.toString());
           if (isAdded) {
             favoriteBtn.textContent = '❤️';
             favoriteBtn.classList.add('added');
