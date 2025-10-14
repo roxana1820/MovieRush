@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }, { once: true });
         });
     }
-
+    
     // Health check function
     async function checkServerHealth() {
         try {
@@ -197,7 +197,44 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Run health check when page loads
-    await checkServerHealth();
+   
+async function checkLoginStatus() {
+    const showLoginBtn = document.getElementById("showLogin");
+    const showRegisterBtn = document.getElementById("showRegister");
+    const profileDropdown = document.getElementById("profileDropdown"); 
+
+   
+    showLoginBtn.style.display = 'block';
+    showRegisterBtn.style.display = 'block';
+
+    if (profileDropdown) profileDropdown.style.display = 'none';
+
+    try {
+        const res = await fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' });
+        const data = await res.json();
+
+        if (data.loggedIn === true || data.user) {
+            showLoginBtn.style.display = 'none';
+            showRegisterBtn.style.display = 'none';
+            if (profileDropdown) profileDropdown.style.display = 'block';
+
+          
+            const logoutBtn = document.getElementById("logoutBtn");
+            if (logoutBtn && !logoutBtn.hasAttribute('data-listener-added')) {  
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+                    window.location.href = 'index.html';  
+                });
+                logoutBtn.setAttribute('data-listener-added', 'true');
+            }
+        }
+    } catch (err) {
+        console.error('An error when checking up:', err);
+    }
+}
+
+await checkServerHealth();
+await checkLoginStatus();
 
 });
