@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }, { once: true });
         });
     }
-
+    
     // Health check function
     async function checkServerHealth() {
         try {

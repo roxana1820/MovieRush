@@ -376,10 +376,32 @@ document.addEventListener("DOMContentLoaded", async function () {
           card.innerHTML = `
           <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
           <p>${movie.title}</p>
+          <button class="remove-btn" style="position: absolute; 
+              top: 5px; right: 5px; background: rgba(238, 231, 231, 0.7); color: black; border: none; border-radius: 50%;
+              width: 25px; height: 25px; cursor: pointer; font-size: 18px; font-weight: bold; z-index: 10;">×</button>
+          </div>
         `;
-          card.addEventListener("click", () => {
-            window.location.href = `movieDetails.html?id=${movie.id}`;
-          });
+           card.addEventListener("click", (e) => {
+          if (e.target.classList.contains("remove-btn")) return;
+          window.location.href = `movieDetails.html?id=${movie.id}`;
+        });
+
+        const removeBtn = card.querySelector(".remove-btn");
+        removeBtn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          try {
+            await removeFromFavorites(movieId);
+            card.remove();
+            if (!favoritesList.querySelector(".movie-card")) {
+              favoritesList.innerHTML = `<p style="color:white; font-size:1rem;">You don't have any favorite movies yet.</p>`;
+            }
+            console.log(`Movie ${movieId} removed from favorites`);
+          } catch (err) {
+            console.error(`Error removing movie ${movieId}:`, err);
+            alert("Error removing from favorites. Please try again.");
+          }
+        });
+
           favoritesList.appendChild(card);
         }
       }
@@ -399,6 +421,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     } catch (err) {
       console.error(err);
       alert('Error loading favorites.');
+    }
+  }
+
+   async function removeFromFavorites(movieIdToRemove) {
+    const body = { movieId: movieIdToRemove.toString() };
+
+    try {
+      console.log("Removing movie ID:", movieIdToRemove);
+      const res = await fetch(`${API_BASE}/api/favorites/remove`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
+
+      console.log("Remove response status:", res.status);
+
+      if (!res.ok) {
+        throw new Error("Failed to remove from favorites");
+      }
+
+      const data = await res.json();
+      console.log("Favorite removed:", data.favorites);
+    } catch (err) {
+      console.error("Error removing favorite:", err);
+      alert("Error removing from favorites. Please try again.");
     }
   }
 
