@@ -179,6 +179,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const upNextList = document.getElementById('upNextList');
   const topRatedList = document.getElementById('topRatedList');
   const searchInput = document.getElementById("searchInput");
+  const trailerBtn = document.getElementById("playBtn");
 
   function updateFeaturedMovie() {
     const movie = allMovies.popular[currentIndex];
@@ -202,6 +203,30 @@ document.addEventListener("DOMContentLoaded", async function () {
       upNextList.appendChild(item);
     });
   }
+
+
+  trailerBtn.addEventListener("click", async () => {
+  const currentMovie = allMovies.popular[currentIndex];
+  const movieId = currentMovie.id;
+
+  try {
+    const videosResponse = await fetch(`${API_BASE}/api/movies/details/${movieId}/videos`);
+    const videos = await videosResponse.json();
+    const trailer = videos.results.find(
+      (v) => v.type === "Trailer" && v.site === "YouTube"
+    );
+
+    if (trailer) {
+      window.open(`https://www.youtube.com/watch?v=${trailer.key}`, "_blank");
+    } else {
+      alert("No trailer available for this movie.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error loading trailer");
+  }
+});
+
 
   document.getElementById('prevBtn').addEventListener('click', function () {
     currentIndex = (currentIndex - 1 + allMovies.popular.length) % allMovies.popular.length;

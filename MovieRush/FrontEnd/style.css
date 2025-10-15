@@ -100,7 +100,7 @@ body {
   display: none;
   position: absolute;
   right: 0;
-  background-color: #1c1c1c;
+  background-color: transparent;
   min-width: 180px;
   border: 1px solid #797474;
   border-radius: 6px;
@@ -189,6 +189,17 @@ button:hover {
   box-shadow: 0 8px 20px rgba(209, 210, 214, 0.4);
 }
 
+.nav-btn {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #797474;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(209, 210, 214, 0.4);
+}
+
 #message,
 #loginMessage,
 #registerMessage {
@@ -217,7 +228,7 @@ button:hover {
   animation: slideIn 1s ease-out;
 }
 
-.sidebar-right {
+.sidebar-right, .sidebar-left {
   position: absolute;
   top: 200px;
   right: 50px;
@@ -232,6 +243,7 @@ button:hover {
   z-index: 2;
   animation: slideInRight 1s ease-out;
 }
+
 
 @keyframes slideInRight {
   from {
