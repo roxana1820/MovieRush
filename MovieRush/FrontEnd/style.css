@@ -13,6 +13,7 @@ img, video {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  max-width: 100%;
 }
 
 body {
@@ -21,7 +22,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  position:relative;
+  overflow: hidden; 
 }
 
 .intro-text {
@@ -434,7 +436,7 @@ button:hover {
     margin-top:40px;
     font-size: 44px;
     text-align: center;
-    left: 20%;
+    left: 50%;
     transform: translateX(-50%);
   }
 

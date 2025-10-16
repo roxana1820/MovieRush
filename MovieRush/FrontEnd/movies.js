@@ -289,58 +289,91 @@ document.addEventListener("DOMContentLoaded", async function () {
   searchButton.style.fontSize = "18px";
   searchInput.parentNode.appendChild(searchButton);
 
-  function handleSearch() {
-    const query = searchInput.value.trim().toLowerCase();
+
+async function handleSearch() {
+    const query = searchInput.value.trim();
     if (!query) return;
 
     document.getElementById("searchResultsSection")?.remove();
+    
+    try {
+        const response = await fetch(`${API_BASE}/api/movies/search?q=${encodeURIComponent(query)}`);
+        
+        if (!response.ok) {
+            throw new Error(`Search failed: ${response.status}`);
+        }
+        
+        const results = await response.json();
 
-    const results = [
-      ...allMovies.popular,
-      ...allMovies.topRated,
-      ...allMovies.upcoming,
-      ...allMovies.nowPlaying
-    ].filter(movie => movie.title.toLowerCase().includes(query));
 
-    const resultsSection = document.createElement("div");
-    resultsSection.className = "movie-section";
-    resultsSection.id = "searchResultsSection";
-    resultsSection.innerHTML = `<h3>Search Results for "${query}"</h3><div class="movie-list-container"><div class="movie-list"></div></div>`;
+        const resultsSection = document.createElement("div");
+        resultsSection.className = "movie-section";
+        resultsSection.id = "searchResultsSection";
+        resultsSection.innerHTML = `
+            <div style="margin-bottom: 20px;">
+                <button id="backToHomeFromSearch" class="go-back-btn">← Back</button>
+                <h3 style="margin: 10px 0 0 0;">🔍 Search Results for "${query}"</h3>
+            </div>
+            <div class="movie-list-container">
+                <div class="movie-list" id="searchResultsList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
+            </div>
+        `;
 
-    const resultsList = resultsSection.querySelector(".movie-list");
-    if (results.length > 0) {
-      results.forEach(movie => {
-        const card = document.createElement("div");
-        card.classList.add("movie-card");
-        card.innerHTML = `
+        const resultsList = resultsSection.querySelector("#searchResultsList");
+        
+        if (results.length > 0) {
+            results.forEach(movie => {
+
+                if (!movie.poster_path) return;
+                
+                const card = document.createElement("div");
+                card.classList.add("movie-card");
+                card.innerHTML = `
                     <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
                     <p>${movie.title}</p>
                 `;
-        card.addEventListener("click", () => {
-          window.location.href = `movieDetails.html?id=${movie.id}`;
+                card.addEventListener("click", () => {
+                    window.location.href = `movieDetails.html?id=${movie.id}`;
+                });
+                resultsList.appendChild(card);
+            });
+        } else {
+            resultsList.innerHTML = `<p style="color:white; font-size:1rem;">No results found for "${query}".</p>`;
+        }
+
+        document.querySelector('.main-content').style.display = 'none';
+        document.querySelectorAll(".movie-section").forEach(section => {
+            if (section.id !== "searchResultsSection") {
+                section.style.display = "none";
+            }
         });
-        resultsList.appendChild(card);
-      });
-    } else {
-      resultsList.innerHTML = `<p style="color:white; font-size:1rem;">No results found.</p>`;
+
+        document.body.appendChild(resultsSection);
+
+        document.getElementById('backToHomeFromSearch').addEventListener('click', () => {
+            document.querySelector('.main-content').style.display = 'flex';
+            document.querySelectorAll('.movie-section').forEach(section => {
+                if (section.id !== 'searchResultsSection') {
+                    section.style.display = 'block';
+                }
+            });
+            resultsSection.remove();
+        });
+
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        alert('Error searching movies. Please try again.');
     }
-
-    document.querySelectorAll(".movie-section").forEach(section => {
-      if (section.id !== "searchResultsSection") section.style.display = "none";
-    });
-
-    document.body.appendChild(resultsSection);
-
-    resultsSection.scrollIntoView({ behavior: "smooth" });
-  }
-
+}
   searchButton.addEventListener("click", handleSearch);
 
   searchInput.addEventListener("keypress", function (e) {
     if (e.key === "Enter") handleSearch();
   });
 
-  //for favorites
+  //favorites functionality
   const favoritesLink = document.getElementById('favoritesLink');
   if (favoritesLink) {
     favoritesLink.addEventListener('click', async (e) => {

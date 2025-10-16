@@ -28,7 +28,26 @@ router.get('/by-genre/:genreId', async (req, res) => {
     }
 });
 
+router.get('/search',async (req,res) => {
+    try{
+        const query = req.query.q;
+        const page = req.query.page || 1;
 
+        if(!query){
+             return res.status(400).json({ error: 'Search query is required' });
+        }
+
+        console.log(`Searching for: ${query}`);
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${page}`
+        );
+        
+        res.json(response.data.results);
+    } catch (error) {
+        console.error('Error searching movies:', error.message);
+        res.status(500).json({ error: 'Failed to search movies' });
+    }
+});
 
 router.get('/top-rated', async (req, res) => {
     try {
