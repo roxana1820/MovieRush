@@ -1,3 +1,14 @@
+function waitForHeader() {
+  return new Promise((resolve) => {
+    if (document.getElementById('header').innerHTML.trim() !== '') {
+      resolve();
+    } else {
+      document.addEventListener('headerLoaded', resolve, { once: true });
+      setTimeout(resolve, 5000);
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const API_BASE = config.API_BASE;
   const params = new URLSearchParams(window.location.search);
@@ -11,40 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const trailerBtn = document.getElementById("watchTrailerBtn");
   const favoriteBtn = document.getElementById("favoriteBtn");
 
-  const profileBtn = document.getElementById("profileBtn");
-  profileBtn.style.display = "none";
-
-  if (favoriteBtn) favoriteBtn.style.display = "none";
   let isLoggedIn = false;
-
-  try {
-    const res = await fetch(`${API_BASE}/api/auth/me`, {
-      credentials: "include",
-    });
-
-    if (!res.ok) throw new Error(res.status);
-
-    const data = await res.json();
-    if (data.loggedIn === true || data.user) {
-      profileBtn.style.display = "block";
-      if (favoriteBtn) favoriteBtn.style.display = "block";
-      isLoggedIn = true;
-    } else {
-      profileBtn.style.display = "none";
-      if (favoriteBtn) favoriteBtn.style.display = "none";
-    }
-  } catch (err) {
-    profileBtn.style.display = "none";
-  }
-
-  // favorites
-  const favoritesLink = document.getElementById("favoritesLink");
-  if (favoritesLink) {
-    favoritesLink.addEventListener("click", async (e) => {
-      e.preventDefault();
-      await showFavoritesList();
-    });
-  }
 
   async function showFavoritesList() {
     try {
@@ -64,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.log("Fetched favorites data:", data);
 
       document.querySelector(".main-content").style.display = "none";
+      document.querySelectorAll(".movie-section").forEach(section => section.remove());
 
       document.getElementById("favoritesSection")?.remove();
 
@@ -161,7 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       favoritesSection
         .querySelector("#backToHomeBtn")
         .addEventListener("click", () => {
-          document.querySelector(".main-content").style.display = "block";
+          document.querySelector(".main-content").style.display = "flex";
           favoritesSection.remove();
         });
 
@@ -243,8 +222,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     favoriteBtn.addEventListener("click", toggleFavorite);
   }
 
-  // logout
+  await waitForHeader();
+
+  const profileBtn = document.getElementById("profileBtn");
+  const favoritesLink = document.getElementById("favoritesLink");
   const logoutBtn = document.getElementById("logoutBtn");
+  const categoriesBtn = document.getElementById('categoriesBtn');
+  const categoriesDropdown = document.getElementById('categoriesDropdown');
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+
+  let genres = [];
+  let isDropdownOpen = false;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/me`, {
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error(res.status);
+
+    const data = await res.json();
+    if (data.loggedIn === true || data.user) {
+      if (profileBtn) profileBtn.style.display = "block";
+      if (favoriteBtn) favoriteBtn.style.display = "block";
+      isLoggedIn = true;
+    } else {
+      if (profileBtn) profileBtn.style.display = "none";
+      if (favoriteBtn) favoriteBtn.style.display = "none";
+    }
+  } catch (err) {
+    if (profileBtn) profileBtn.style.display = "none";
+    if (favoriteBtn) favoriteBtn.style.display = "none";
+  }
+
+  if (favoritesLink) {
+    favoritesLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await showFavoritesList();
+    });
+  }
+
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -253,6 +271,212 @@ document.addEventListener("DOMContentLoaded", async () => {
         credentials: "include",
       });
       window.location.href = "index.html";
+    });
+  }
+
+  // Categories functionality
+  async function loadGenres() {
+    try {
+      const response = await fetch(`${API_BASE}/api/movies/genres`);
+      genres = await response.json();
+      renderGenres();
+    } catch (error) {
+      console.error('Error fetching genres:', error);
+    }
+  }
+
+  function renderGenres() {
+    categoriesDropdown.innerHTML = '';
+    const homeItem = document.createElement('div');
+    homeItem.className = 'category-item';
+    homeItem.textContent = '🏠 Home';
+    homeItem.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+    categoriesDropdown.appendChild(homeItem);
+
+    genres.forEach(genre => {
+      const item = document.createElement('div');
+      item.className = 'category-item';
+      item.textContent = genre.name;
+      item.addEventListener('click', () => selectGenre(genre.id, genre.name));
+      categoriesDropdown.appendChild(item);
+    });
+  }
+
+  async function selectGenre(genreId, genreName) {
+    try {
+      categoriesDropdown.classList.remove('show');
+      isDropdownOpen = false;
+
+      const response = await fetch(`${API_BASE}/api/movies/by-genre/${genreId}`);
+      const movies = await response.json();
+
+      document.querySelector('.main-content').style.display = 'none';
+
+      document.querySelectorAll('.movie-section').forEach(section => {
+        section.style.display = 'none';
+      });
+
+      showGenreMovies(movies, genreName);
+
+    } catch (error) {
+      console.error('Error fetching movies by genre:', error);
+    }
+  }
+
+  function showGenreMovies(movies, genreName) {
+    document.getElementById('genreSection')?.remove();
+
+    const genreSection = document.createElement('div');
+    genreSection.className = 'movie-section';
+    genreSection.id = 'genreSection';
+    genreSection.innerHTML = `
+            <div style="margin-bottom: 20px; position: relative">
+           <button id="backToHomeBtn" class="go-back-btn">← Back</button>
+            <h3 style="margin: 10px 0 0 0;"> 🎬 ${genreName} Movies</h3>
+            </div>
+            <div class="movie-list-container">
+                <div class="movie-list" id="genreMoviesList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
+            </div>
+        `;
+
+    document.body.appendChild(genreSection);
+
+    const moviesList = genreSection.querySelector('#genreMoviesList');
+    movies.forEach(movie => {
+      const card = document.createElement('div');
+      card.className = 'movie-card';
+      card.innerHTML = `
+                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+                <p>${movie.title}</p>
+            `;
+
+      card.addEventListener("click", () => {
+        window.location.href = `movieDetails.html?id=${movie.id}`;
+      });
+
+      moviesList.appendChild(card);
+    });
+
+    document.getElementById('backToHomeBtn').addEventListener('click', () => {
+      document.querySelector('.main-content').style.display = 'flex';
+      document.querySelectorAll('.movie-section').forEach(section => {
+        if (section.id !== 'genreSection') {
+          section.style.display = 'block';
+        }
+      });
+      genreSection.remove();
+    });
+
+    genreSection.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  if (categoriesBtn) {
+    categoriesBtn.addEventListener('click', (e) => {
+      console.log('Button clicked!');
+      e.stopPropagation();
+      isDropdownOpen = !isDropdownOpen;
+      console.log('isDropdownOpen:', isDropdownOpen);
+      categoriesDropdown.classList.toggle('show', isDropdownOpen);
+      console.log('Dropdown classes:', categoriesDropdown.classList.toString());
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!categoriesBtn.contains(e.target) && !categoriesDropdown.contains(e.target)) {
+      categoriesDropdown.classList.remove('show');
+      isDropdownOpen = false;
+    }
+  });
+
+  loadGenres();
+
+  // Search functionality
+  async function handleSearch() {
+    const query = searchInput.value.trim();
+    if (!query) return;
+
+    document.getElementById("searchResultsSection")?.remove();
+    
+    try {
+        const response = await fetch(`${API_BASE}/api/movies/search?q=${encodeURIComponent(query)}`);
+        
+        if (!response.ok) {
+            throw new Error(`Search failed: ${response.status}`);
+        }
+        
+        const results = await response.json();
+
+        const resultsSection = document.createElement("div");
+        resultsSection.className = "movie-section";
+        resultsSection.id = "searchResultsSection";
+        resultsSection.innerHTML = `
+            <div style="margin-bottom: 20px;">
+                <button id="backToHomeFromSearch" class="go-back-btn">← Back</button>
+                <h3 style="margin: 10px 0 0 0;">🔍 Search Results for "${query}"</h3>
+            </div>
+            <div class="movie-list-container">
+                <div class="movie-list" id="searchResultsList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
+            </div>
+        `;
+
+        const resultsList = resultsSection.querySelector("#searchResultsList");
+        
+        if (results.length > 0) {
+            results.forEach(movie => {
+
+                if (!movie.poster_path) return;
+                
+                const card = document.createElement("div");
+                card.classList.add("movie-card");
+                card.innerHTML = `
+                    <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+                    <p>${movie.title}</p>
+                `;
+                card.addEventListener("click", () => {
+                    window.location.href = `movieDetails.html?id=${movie.id}`;
+                });
+                resultsList.appendChild(card);
+            });
+        } else {
+            resultsList.innerHTML = `<p style="color:white; font-size:1rem;">No results found for "${query}".</p>`;
+        }
+
+        document.querySelector('.main-content').style.display = 'none';
+        document.querySelectorAll(".movie-section").forEach(section => {
+            if (section.id !== "searchResultsSection") {
+                section.style.display = "none";
+            }
+        });
+
+        document.body.appendChild(resultsSection);
+
+        document.getElementById('backToHomeFromSearch').addEventListener('click', () => {
+            document.querySelector('.main-content').style.display = 'flex';
+            document.querySelectorAll('.movie-section').forEach(section => {
+                if (section.id !== 'searchResultsSection') {
+                    section.style.display = 'block';
+                }
+            });
+            resultsSection.remove();
+        });
+
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        alert('Error searching movies. Please try again.');
+    }
+  }
+
+  if (searchBtn) {
+    searchBtn.addEventListener("click", handleSearch);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") handleSearch();
     });
   }
 

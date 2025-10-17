@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter&display=swap" rel="stylesheet">
   <script src="config.js"></script>
   <script src="movieDetails.js" defer></script>
+  <script src="include-partials.js"></script>
 </head>
 <body>
   <video autoplay muted loop class ="background-video">
@@ -15,17 +16,7 @@
     Your browser does not support the video tag.
   </video>
 
-  <div class="header">
-     <button class="go-back-btn" onclick="history.back()">⬅ Go Back</button>
-    <h1 class="site-title">🎬 MovieRush</h1>
-    <div class="dropdown">
-    <button id="profileBtn" class="dropbtn">👤 Profile ▼</button>
-    <div class="dropdown-content">
-      <a href="#" id="favoritesLink">❤️ Your Favorites</a>
-      <a href="#" id="logoutBtn">🚪 Logout</a>
-    </div>
-  </div>
-  </div>
+  <div id="header"></div>
 
 
   <div class="main-content">
