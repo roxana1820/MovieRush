@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieRush - Movie Catalog</title>
     <link rel="stylesheet" href="movies.css">
+    <link rel="stylesheet" href="css/common.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter&display=swap" rel="stylesheet">
     <script src="config.js"></script>
     <script src="movies.js" defer></script>
+    <script src="js/common.js"></script>
+    <script src="include-partials.js"></script>
 </head>
 <body>
 
@@ -16,25 +19,8 @@
         Your browser does not support the video tag.
       </video>
 
-    <div class="header">
-        <button id="categoriesBtn" class="categories-btn">☰</button>
-        <div id="categoriesDropdown" class="categories-dropdown"></div>
-        
-        <h1 class="site-title">🎬 MovieRush</h1>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search movies...">
-            <button id="searchBtn">🔎</button>
-        </div>
-
-    <div class="dropdown">
-     <button id="profileBtn" class="dropbtn">👤 Profile ▼</button>
-    <div class="dropdown-content">
-      <a href="#" id="favoritesLink">❤️ Your Favorites</a>
-      <a href="#" id="logoutBtn">🚪 Logout</a>
-    </div>
-     </div>
-    </div>
-
+      <div id="header"></div>
+    
     <div class="main-content">
         <div class="featured-movie">
             <img src="" alt="Featured Movie" id="featuredImage" class="featured-image">

@@ -22,8 +22,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position:relative;
-  overflow: hidden; 
+  position: relative;
+  overflow-x: hidden; 
 }
 
 .intro-text {
