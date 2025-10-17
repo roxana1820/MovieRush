@@ -436,7 +436,7 @@ button:hover {
     margin-top:40px;
     font-size: 44px;
     text-align: center;
-    left: 50%;
+    left: 20%;
     transform: translateX(-50%);
   }
 
