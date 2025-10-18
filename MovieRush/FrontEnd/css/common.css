@@ -245,17 +245,14 @@ body {
 }
 
 .movie-list-container {
-    position: relative;
-    display: flex;
-    align-items: center;
+    display:block;
 }
 
 .movie-list {
-    display: flex;
-    gap: 20px;
-    padding-bottom: 10px;
-    scroll-behavior: smooth;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        overflow-x: visible;
 }
 
 #genreMoviesList .movie-card {
@@ -312,7 +309,6 @@ body {
 .next-movie-btn {
     right: 0;
 }
-
 @media screen and (max-width: 768px) {
     .header {
         padding: 10px 15px;
@@ -349,35 +345,33 @@ body {
 
     .dropdown {
         position:absolute;
+        right: 10px;
     }
 
     .dropbtn {
         padding: 5px 10px;
         font-size: 10px;
-
     }
     
     .dropdown-content a {
-    color: white;
-    font-size: 12px;
-    padding: 10px 16px;
-    text-decoration: none;
-    display: block;
+        color: white;
+        font-size: 12px;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
     }
      
-
-
     #profileBtn {
-        position: static;
+        position:static;
         padding: 5px 10px; 
-        font-size: 10px;
+        font-size: 12px;
         border-radius: 4px; 
-        margin-right: 0;
     }
 
     .main-content {
         flex-direction: column;
         padding: 20px 15px;
+        margin-top: 40px;
     }
 
     .featured-movie {
@@ -387,31 +381,51 @@ body {
     }
 
     .featured-image {
+        margin-left: 20px;
         width: 90%;
+        max-width: 100%;
         height: 400px;
-        object-fit: cover;
     }
 
     .movie-info {
-        position:absolute;
-        bottom: 10px;
-        right:10px;
-        max-width: 80%; 
+        bottom: 0px;
+        left: 20px;
+        justify-content: space-between;
+        max-width: 60%; 
         font-size: 12px;
     }
 
     .movie-info h2 {
-        font-size: 18px;
+        font-size: 16px;
+        margin-bottom: 6px;
     }
 
-    .nav-buttons {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        z-index: 10;
+    .movie-info p {
+        margin-bottom: 8px;
+    }
+
+    #prevBtn,
+    #nextBtn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        top: 200px;
+    }
+
+    #prevBtn {
+        left: 0px;
+    }
+
+    #nextBtn {
+        left: 320px;
+    }
+
+    #playBtn {
+        font-size: 10px;
+        min-width: auto;
+        height: auto;
+        padding: 6px 10px;
+        border-radius: 15px;
     }
 
     .up-next {
@@ -444,15 +458,19 @@ body {
         font-size: 20px;
     }
 
+    .featured-movie {
+        height: 300px;
+    }
+
     .featured-image {
+        width: 100%;
+        max-width: 100%;
         height: 300px;
     }
 
     .movie-info {
-        max-width: 80%;
+        max-width: 70%;
         font-size: 10px;
-        bottom: 5px;
-        right: 5px;
         padding: 8px;
     }
 
@@ -460,8 +478,18 @@ body {
         min-width: 200px;
     }
 
-    .nav-buttons button {
-        padding: 10px 10px;
-        font-size: 22px; 
+    #prevBtn,
+    #nextBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        top: 150px;
+    }
+
+   
+    #playBtn {
+        font-size: 10px;
+        padding: 6px 12px;
+        border-radius: 15px;
     }
 }
