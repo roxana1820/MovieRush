@@ -37,28 +37,36 @@
     cursor: pointer;
 }
 
-.nav-buttons {
+#prevBtn,
+#nextBtn {
     position: absolute;
-    top: 50%;
+    top: 300px;
     transform: translateY(-50%);
-    width: 95%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-}
-
-.nav-buttons button {
     background: rgba(0, 0, 0, 0.7);
-    border-color: white;
-    border-radius: 5px;
+    border: 2px solid white;
+    border-radius: 50%;
     color: white;
-    padding: 15px 15px;
-    cursor: pointer;
+    width: 60px;
+    height: 60px;
     font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background 0.3s;
+    z-index: 10;
 }
 
-.nav-buttons button:hover {
+#prevBtn {
+    left: 10px;
+}
+
+#nextBtn {
+    right: 30px;
+}
+
+#prevBtn:hover,
+#nextBtn:hover {
     background: rgba(0, 0, 0, 0.9);
 }
 
@@ -139,7 +147,6 @@
 .movie-list::-webkit-scrollbar {
     display: none;
 }
-
 
 .movie-card {
     overflow: visible;
