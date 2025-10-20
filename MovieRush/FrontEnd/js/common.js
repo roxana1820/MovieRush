@@ -114,10 +114,10 @@ function showGenreMovies(movies, genreName) {
 
   document.getElementById('backToHomeBtn').addEventListener('click', () => {
     const mainContent = document.querySelector('.main-content');
-    if (mainContent) mainContent.style.display = 'flex';
+    if (mainContent ) mainContent.style.display = 'flex';
     
-    document.querySelectorAll('.movie-section').forEach(section => {
-      if (section.id !== 'genreSection') {
+     document.querySelectorAll('.movie-section').forEach(section => {
+      if (section.id !== 'genreSection' && section.id !== 'searchResultsSection' && section.id !== 'favoritesSection') {
         section.style.display = 'block';
       }
     });
@@ -286,8 +286,11 @@ async function showFavoritesList() {
     const mainContent = document.querySelector(".main-content");
     if (mainContent) mainContent.style.display = "none";
     
-    document.querySelectorAll(".movie-section").forEach(section => section.remove());
-
+    document.querySelectorAll(".movie-section").forEach(section => {
+      if (section.id !== 'favoritesSection') {
+        section.style.display = 'none';
+      }
+    });
     document.getElementById("favoritesSection")?.remove();
 
     const favoritesSection = document.createElement("div");
@@ -375,12 +378,18 @@ async function showFavoritesList() {
       }
     }
 
-    favoritesSection.querySelector("#backToHomeBtn").addEventListener("click", () => {
-      if (mainContent) mainContent.style.display = "flex";
-      favoritesSection.remove();
+   document.getElementById('backToHomeBtn').addEventListener('click', () => {
+    if (mainContent) mainContent.style.display = 'flex';
+    
+    document.querySelectorAll('.movie-section').forEach(section => {
+      if (section.id !== 'genreSection' && section.id !== 'searchResultsSection' && section.id !== 'favoritesSection') {
+        section.style.display = 'block';
+      }
     });
+      favoritesSection.remove();
+  });
 
-    favoritesSection.scrollIntoView({ behavior: "smooth" });
+    favoritesSection.scrollIntoView({ behavior: "smooth" }); 
   } catch (err) {
     console.error("Error in showFavoritesList:", err);
     alert("Error loading favorites.");

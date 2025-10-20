@@ -25,11 +25,18 @@ document.addEventListener("DOMContentLoaded", async function () {
   const upNextList = document.getElementById('upNextList');
   const trailerBtn = document.getElementById("playBtn");
 
+  function truncateText(text, maxLength) {
+    if(!text) return '';
+    if(text.length <= maxLength) return text;
+    return text.slice(0,maxLength) + '...';
+  }
+
+
   function updateFeaturedMovie() {
     const movie = allMovies.popular[currentIndex];
     featuredImage.src = `https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`;
     featuredTitle.textContent = movie.title;
-    featuredDescription.textContent = movie.overview;
+    featuredDescription.textContent = truncateText(movie.overview, 150);
 
     upNextList.innerHTML = '';
     const nextMovies = allMovies.popular.slice(currentIndex + 1, currentIndex + 9)
