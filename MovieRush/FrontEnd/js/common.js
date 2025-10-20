@@ -149,7 +149,10 @@ function initCategoriesDropdown() {
 }
 
 async function handleSearch(query) {
-  if (!query.trim()) return;
+  if (!query.trim()) {
+     resetSearchBar();
+     return;
+  } 
 
   document.getElementById("searchResultsSection")?.remove();
 
@@ -168,7 +171,7 @@ async function handleSearch(query) {
     resultsSection.innerHTML = `
       <div style="margin-bottom: 20px;">
         <button id="backToHomeFromSearch" class="go-back-btn">← Back</button>
-        <h3 style="margin: 10px 0 0 0;">🔍 Search Results for "${query}"</h3>
+        <h3 style="margin: 10px 0 0 0;"> Search Results for "${query}"</h3>
       </div>
       <div class="movie-list-container">
         <div class="movie-list" id="searchResultsList" style="flex-wrap: wrap; justify-content: flex-start;"></div>
@@ -225,12 +228,65 @@ async function handleSearch(query) {
   }
 }
 
+function resetSearchBar() {
+  const searchInput = document.getElementById("searchInput");
+  const siteTitle = document.querySelector('.site-title');
+  const categoriesBtn = document.getElementById('categoriesBtn');
+  const searchBtn = document.getElementById('searchBtn');
+  const cancelSearchBtn = document.getElementById('cancelSearchBtn');
+
+  if(window.innerWidth <= 768) {
+    searchInput.style.display = 'none';
+    siteTitle.style.display = 'block';
+    categoriesBtn.style.display = 'block';
+    searchBtn.style.display = 'block';
+
+    if(cancelSearchBtn) cancelSearchBtn.style.display = 'none';
+    searchInput.value = '';
+  }
+}
+
+
 function initSearch() {
   const searchInput = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
+  const header = document.querySelector('.header');
+  let cancelSearchBtn = document.getElementById('cancelSearchBtn');
 
-  if (searchBtn) {
-    searchBtn.addEventListener("click", () => handleSearch(searchInput.value));
+  if(!cancelSearchBtn) {
+    cancelSearchBtn = document.createElement('button');
+    cancelSearchBtn.id = 'cancelSearchBtn';
+    cancelSearchBtn.textContent ='X';
+    cancelSearchBtn.className = 'cancel-search-btn';
+    header.appendChild(cancelSearchBtn);
+  }
+
+  if(searchBtn) {
+    searchBtn.addEventListener("click", () => {
+      if(window.innerWidth <= 768) {
+        const siteTitle = document.querySelector('.site-title');
+        const categoriesBtn = document.getElementById('categoriesBtn');
+
+        if(searchInput.style.display === 'block') {
+          handleSearch(searchInput.value);
+        } else {
+          siteTitle.style.display = 'none';
+          categoriesBtn.style.display = 'none';
+          searchBtn.style.display = 'none';
+          searchInput.style.display = 'block';
+          cancelSearchBtn.style.display = 'block';
+          searchInput.focus();
+        }
+      } else {
+        handleSearch(searchInput.value);
+      }
+    });
+  }
+
+  if(cancelSearchBtn) {
+    cancelSearchBtn.addEventListener('click', () => {
+      resetSearchBar();
+    });
   }
 
   if (searchInput) {
@@ -387,6 +443,7 @@ async function showFavoritesList() {
       }
     });
       favoritesSection.remove();
+      resetSearchBar();
   });
 
     favoritesSection.scrollIntoView({ behavior: "smooth" }); 
