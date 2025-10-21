@@ -405,7 +405,6 @@ body {
   }
 
   #profileBtn {
-    display: block;
     position: static;
     padding: 5px 10px;
     font-size: 10px;

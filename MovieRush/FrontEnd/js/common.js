@@ -14,7 +14,8 @@ function waitForHeader() {
 async function checkLoginStatus() {
   try {
     const res = await fetch(`${API_BASE}/api/auth/me`, {
-      credentials: 'include'
+      credentials: 'include',
+      mode: 'cors'
     });
 
     if (!res.ok) throw new Error(res.status);

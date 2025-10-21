@@ -68,7 +68,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
 
       if (trailer) {
-        window.open(`https://www.youtube.com/watch?v=${trailer.key}`, "_blank");
+        const trailerUrl = `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&playsinline=1`;
+
+         window.location.href = trailerUrl;
       } else {
         alert("No trailer available for this movie.");
       }
