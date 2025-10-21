@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", async function () {
   console.log('API_BASE:', API_BASE);
 
+  const video = document.getElementById("bg-video");
+    if (video) {
+        video.play().catch(() => {
+            document.body.addEventListener("touchstart", () => {
+                video.play();
+            }, { once: true });
+        });
+    }
+
   let allMovies;
   try {
     const response = await fetch(`${API_BASE}/api/movies/all`);
