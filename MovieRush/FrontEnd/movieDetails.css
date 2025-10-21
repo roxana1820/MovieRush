@@ -6,14 +6,6 @@
     overflow-x: hidden;
 }
 
-.movie-list.loading::after {
-    content: "Loading more movies...";
-    display: block;
-    text-align: center;
-    padding: 20px;
-    color: #f5c518;
-}
-
 .movie-card {
     transition: transform 0.2s;
 }
@@ -92,4 +84,101 @@
 
 .watch-trailer-btn:hover {
     background-color: #f40612;
+}
+
+@media (max-width: 768px) {
+    .movie-details-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 300px;
+        gap:15px;
+        margin: 30px auto;
+        padding:20px;
+    }
+
+    .movie-details-container img {
+        width: 100%;
+        height: auto;
+        padding-top:15px;
+        border-radius: 15px;
+    }
+
+    .movie-details-content {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .movie-details-content h2 {
+        font-size: 28px;
+        display: inline;
+        vertical-align: middle;
+    }
+
+    .movie-details-content p {
+        font-size: 18px;
+    }
+
+    body .favorite-btn {
+        position: relative;
+        float: right;
+        vertical-align: middle;
+        font-size: 38px;
+    }
+
+    .watch-trailer-btn {
+        padding:10px 15px;
+        margin:auto;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-details-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 280px;
+        gap: 12px;
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .movie-details-container img {
+        width: 85%;
+        height: auto;
+        padding-top: 10px;
+        border-radius: 12px;
+    }
+
+    .movie-details-content {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .movie-details-content h2 {
+        font-size: 22px;
+        display: inline;
+        vertical-align: middle;
+    }
+
+    .movie-details-content p {
+        font-size:16px;
+    }
+
+    .favorite-btn {
+        position: relative;
+        float: right;
+        vertical-align: middle;
+        margin-right: 5px;
+        top: -5px;
+        font-size: 24px;
+    }
+    
+    .watch-trailer-btn {
+        padding: 8px 12px;
+        margin:auto;
+        font-size:16px;
+
+    }
 }
