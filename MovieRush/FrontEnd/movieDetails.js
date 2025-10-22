@@ -11,16 +11,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const favoriteBtn = document.getElementById("favoriteBtn");
 
   const isLoggedIn = await initCommonFunctions();
-  
-   const video = document.getElementById("bg-video");
-    if (video) {
-        video.play().catch(() => {
-            document.body.addEventListener("touchstart", () => {
-                video.play();
-            }, { once: true });
-        });
-    }
-
 
   async function toggleFavorite() {
     if (!isLoggedIn) {

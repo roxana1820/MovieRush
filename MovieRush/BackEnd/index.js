@@ -61,8 +61,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: { 
     httpOnly: true,
-    secure: secure,  // true in production (HTTPS), false in development
-    sameSite: 'none' ,  // 'none' for cross-origin in production, 'lax' for localhost
+    secure: isProduction,  // true in production (HTTPS), false in development
+    sameSite: isProduction ? 'none' : 'lax',  // 'none' for cross-origin in production, 'lax' for localhost
     maxAge: 24 * 60 * 60 * 1000,
     path: '/'
   },

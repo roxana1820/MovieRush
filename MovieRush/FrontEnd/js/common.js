@@ -483,10 +483,20 @@ async function initCommonFunctions() {
   
   const isLoggedIn = await checkLoginStatus();
   const profileBtn = document.getElementById('profileBtn');
+  const searchBar = document.querySelector('.search-bar');
+  const searchBtn = document.getElementById('searchBtn');
   
   if (profileBtn) {
     profileBtn.style.display = isLoggedIn ? 'block' : 'none';
   }
+
+if (searchBtn) {
+  if (!isLoggedIn) {
+    searchBtn.classList.add('right');
+  } else {
+    searchBtn.classList.remove('right');
+  }
+}
 
   const genres = await loadGenres();
   const categoriesDropdown = document.getElementById('categoriesDropdown');

@@ -136,7 +136,7 @@ body {
 
 #searchBtn i {
   color: rgb(193, 184, 184);
-  font-size: px;
+  font-size: 16px;
 }
 
 .search-bar button {
@@ -339,7 +339,9 @@ body {
     font-size: 16px;
     flex-grow: 1;
   }
-
+.search-bar.right {
+  margin-left: auto;
+}
   .search-bar {
     position: static;
     margin-left: 20px;
@@ -369,6 +371,12 @@ body {
     margin-right: 90px;
   }
 
+   #searchBtn.right {
+    position: absolute; 
+    margin-right: 10px; 
+   }
+   
+
   .cancel-search-btn {
     position: absolute;
     right: 130px;
@@ -386,6 +394,7 @@ body {
   .cancel-search-btn:hover {
     transform: translateY(-50%) scale(1.1);
   }
+
 
   .dropdown {
     position: absolute;
