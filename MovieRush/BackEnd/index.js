@@ -61,14 +61,13 @@ app.use(session({
   saveUninitialized: false,
   cookie: { 
     httpOnly: true,
-    secure: isProduction,  // true in production (HTTPS), false in development
-    sameSite: isProduction ? 'none' : 'lax',  // 'none' for cross-origin in production, 'lax' for localhost
+    secure: secure,  // true in production (HTTPS), false in development
+    sameSite: 'none' ,  // 'none' for cross-origin in production, 'lax' for localhost
     maxAge: 24 * 60 * 60 * 1000,
     path: '/'
-    // Don't set domain - let it default to the request domain
   },
   name: 'connect.sid',
-  proxy: isProduction  // Trust proxy in production (Render uses proxies)
+  proxy: isProduction  
 }));
 
 // Health check endpoint
