@@ -54,7 +54,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback-secret-key-for-development',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { 
     httpOnly: true,
     secure: isProduction,  // true in production (HTTPS), false in development
