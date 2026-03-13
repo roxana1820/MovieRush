@@ -5,7 +5,6 @@ MovieRush is a full-stack web application that allows users to securely register
 ## Live Demo
 https://movierush-0dl7.onrender.com
 
-
 ##  Features
 ### Authentication
 - Secures user registration 
@@ -42,9 +41,9 @@ https://movierush-0dl7.onrender.com
 ### Database
 - MongoDB
 
-
 ## Installation & Setup
-Clone the repo: git clone ...
-Install dependencies: npm install
-Start the dev server: npm run dev
 
+1. Clone the repo: `git clone ...`
+2. Install dependencies: `npm install`
+
+3. Start the dev server: `npm run dev`
