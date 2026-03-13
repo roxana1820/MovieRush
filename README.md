@@ -8,24 +8,24 @@ https://movierush-0dl7.onrender.com
 
 ##  Features
 ### Authentication
--Secure Registration: User account creation with encrypted passwords.
--Login/Logout System: Session-based authentication to keep user data private.
+Secure Registration: User account creation with encrypted passwords  
+Login/Logout System: Session-based authentication to keep user data private
 
 ### Movie Discovery
-- Browse trending and popular movies
-- Search movies by title
-- Discover movies from different genres
+Browse trending and popular movies
+Search movies by title
+Discover movies from different genres
 
 ### Movie Details
-- View detailed information about each movie
-- Integration with TMDB API for trailers, cast, ratings, and summaries
+View detailed information about each movie
+Integration with TMDB API for trailers, cast, ratings, and summaries
 
 ### Favourites System
-- Add/Remove movies to personal favourites list
-- View a personal list of favourite movies
+Add/Remove movies to personal favourites list
+View a personal list of favourite movies
 
 ### Responsive Design
-- Fully optimized for mobile and desktop devices
+Fully optimized for mobile and desktop devices
 
 ## Technologies Used
 
