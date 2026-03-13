@@ -11,13 +11,11 @@ const app = express();
 app.use(express.json());
 
 
-// CORS configuration - works for both development and production
 const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:5500',
   'https://movie-rush-qxcb.onrender.com', 
-  'https://movierush-0dl7.onrender.com' // Your production frontend URL
-  // Add any other production URLs here
+  'https://movierush-0dl7.onrender.com' 
 ];
 
 const corsOptions = {
@@ -48,7 +46,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Session configuration - works for both development and production
+// Session configuration
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {
@@ -62,7 +60,7 @@ app.use(session({
   cookie: { 
     httpOnly: true,
     secure: isProduction,  // true in production (HTTPS), false in development
-    sameSite: isProduction ? 'none' : 'lax',  // 'none' for cross-origin in production, 'lax' for localhost
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 24 * 60 * 60 * 1000,
     path: '/'
   },
@@ -70,7 +68,6 @@ app.use(session({
   proxy: isProduction  
 }));
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'ok', 

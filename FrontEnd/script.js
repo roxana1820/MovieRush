@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 signal: controller.signal
             });
 
-            clearTimeout(timeoutId); // Clear timeout if request succeeds
+            clearTimeout(timeoutId); 
 
             if (!response.ok) {
                 throw new Error(`Server returned ${response.status}`);
