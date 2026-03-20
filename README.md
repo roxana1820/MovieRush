@@ -5,6 +5,8 @@ MovieRush is a full-stack web application that allows users to securely register
 ## Live Demo
 https://movierush-0dl7.onrender.com
 
+*Note: The application may take 30–60 seconds to load initially due to backend cold start (Render free tier).*
+
 ##  Features
 ### Authentication
 - Secures user registration 
